@@ -1159,3 +1159,7 @@ EventScript_VsSeekerChargingDone::
 	.include "data/scripts/dexnav.inc"
 
 	.include "data/maps/Starting_Farm/scripts.inc"
+
+	.include "data/maps/NewBarkWoods/scripts.inc"
+
+	.include "data/maps/PorytilesTutorialMap/scripts.inc"

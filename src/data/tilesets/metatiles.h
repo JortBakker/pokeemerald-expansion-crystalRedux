@@ -213,3 +213,9 @@ const u16 gMetatileAttributes_Farm_Start[] = INCBIN_U16("data/tilesets/primary/f
 
 const u16 gMetatiles_Farm_start[] = INCBIN_U16("data/tilesets/secondary/farm_start/metatiles.bin");
 const u16 gMetatileAttributes_Farm_start[] = INCBIN_U16("data/tilesets/secondary/farm_start/metatile_attributes.bin");
+
+const u16 gMetatiles_PorytilesPrimaryTutorial[] = INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/metatiles.bin");
+const u16 gMetatileAttributes_PorytilesPrimaryTutorial[] = INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/metatile_attributes.bin");
+
+const u16 gMetatiles_PorytilesSecondaryTutorial[] = INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/metatiles.bin");
+const u16 gMetatileAttributes_PorytilesSecondaryTutorial[] = INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/metatile_attributes.bin");
