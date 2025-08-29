@@ -207,3 +207,18 @@ const u16 gMetatileAttributes_MysteryEventsHouse[] = INCBIN_U16("data/tilesets/s
 
 const u16 gMetatiles_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatiles.bin");
 const u16 gMetatileAttributes_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatile_attributes.bin");
+
+const u16 gMetatiles_Farm_Start[] = INCBIN_U16("data/tilesets/primary/farm_start/metatiles.bin");
+const u16 gMetatileAttributes_Farm_Start[] = INCBIN_U16("data/tilesets/primary/farm_start/metatile_attributes.bin");
+
+const u16 gMetatiles_Farm_start[] = INCBIN_U16("data/tilesets/secondary/farm_start/metatiles.bin");
+const u16 gMetatileAttributes_Farm_start[] = INCBIN_U16("data/tilesets/secondary/farm_start/metatile_attributes.bin");
+
+const u16 gMetatiles_PorytilesPrimaryTutorial[] = INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/metatiles.bin");
+const u16 gMetatileAttributes_PorytilesPrimaryTutorial[] = INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/metatile_attributes.bin");
+
+const u16 gMetatiles_PorytilesSecondaryTutorial[] = INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/metatiles.bin");
+const u16 gMetatileAttributes_PorytilesSecondaryTutorial[] = INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/metatile_attributes.bin");
+
+const u16 gMetatiles_Newbark[] = INCBIN_U16("data/tilesets/secondary/newbark/metatiles.bin");
+const u16 gMetatileAttributes_Newbark[] = INCBIN_U16("data/tilesets/secondary/newbark/metatile_attributes.bin");
