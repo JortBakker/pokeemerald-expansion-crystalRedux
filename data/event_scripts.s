@@ -1158,3 +1158,11 @@ EventScript_VsSeekerChargingDone::
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
 	.include "data/scripts/dexnav.inc"
+
+	.include "data/maps/Starting_Farm/scripts.inc"
+
+	.include "data/maps/NewBarkWoods/scripts.inc"
+
+	.include "data/maps/PorytilesTutorialMap/scripts.inc"
+
+	.include "data/maps/NewBarkTown/scripts.inc"

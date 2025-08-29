@@ -187,6 +187,9 @@
 #define METATILE_Fallarbor_RedCaveEntrance_Top       0x347
 #define METATILE_Fallarbor_RedRockWall               0x269
 
+// gTileset_Farm_start
+#define METATILE_Farm_start_Door  0x211
+
 // gTileset_Fortree
 #define METATILE_Fortree_BridgeOverGrass_Lowered           0x24F
 #define METATILE_Fortree_BridgeOverGrass_Raised            0x24E

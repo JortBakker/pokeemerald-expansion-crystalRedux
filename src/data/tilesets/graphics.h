@@ -1634,3 +1634,98 @@ const u16 gTilesetPalettes_UnionRoom[][16] =
 };
 
 const u32 gTilesetTiles_UnionRoom[] = INCBIN_U32("data/tilesets/secondary/union_room/tiles.4bpp.fastSmol");
+
+const u16 gTilesetPalettes_Farm_Start[][16] =
+{
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/primary/farm_start/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_Farm_Start[] = INCBIN_U32("data/tilesets/primary/farm_start/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_Farm_start[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/farm_start/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_Farm_start[] = INCBIN_U32("data/tilesets/secondary/farm_start/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_PorytilesPrimaryTutorial[][16] =
+{
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/primary/porytiles_primary_tutorial/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_PorytilesPrimaryTutorial[] = INCBIN_U32("data/tilesets/primary/porytiles_primary_tutorial/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_PorytilesSecondaryTutorial[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/porytiles_secondary_tutorial/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_PorytilesSecondaryTutorial[] = INCBIN_U32("data/tilesets/secondary/porytiles_secondary_tutorial/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_Newbark[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/newbark/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_Newbark[] = INCBIN_U32("data/tilesets/secondary/newbark/tiles.4bpp.lz");

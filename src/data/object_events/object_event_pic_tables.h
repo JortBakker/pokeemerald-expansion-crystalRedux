@@ -1356,3 +1356,24 @@ static const struct SpriteFrameImage sPicTable_KirliaOld[] = {
 static const struct SpriteFrameImage sPicTable_RubySapphireMay[] = {
     overworld_ascending_frames(gObjectEventPic_RubySapphireMayNormal, 2, 4),
 };
+
+const struct SpriteFrameImage gObjectEventPicTable_Tauros[] = {
+    // standing
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 0),
+    // standing back
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 2),
+    // standing sideways
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 4),
+    // walk down step 1
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 1),
+    // walk down step 2
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 0),
+    // walk up step 1
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 3),
+    // walk up step 2
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 2),
+    // walk sideways step 1
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 5),
+    // walk sideways step 2
+    overworld_frame(gObjectEventPic_TaurosNew, 4, 4, 4),
+};
