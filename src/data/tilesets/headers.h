@@ -874,3 +874,14 @@ const struct Tileset gTileset_PorytilesSecondaryTutorial =
     .metatileAttributes = gMetatileAttributes_PorytilesSecondaryTutorial,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_Newbark =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Newbark,
+    .palettes = gTilesetPalettes_Newbark,
+    .metatiles = gMetatiles_Newbark,
+    .metatileAttributes = gMetatileAttributes_Newbark,
+    .callback = NULL,
+};

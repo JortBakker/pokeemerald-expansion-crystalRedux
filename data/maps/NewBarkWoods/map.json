@@ -28,7 +28,22 @@
       "flag": "0"
     }
   ],
-  "warp_events": [],
+  "warp_events": [
+    {
+      "x": 0,
+      "y": 30,
+      "elevation": 0,
+      "dest_map": "MAP_NEW_BARK_WOODS",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 0,
+      "y": 31,
+      "elevation": 0,
+      "dest_map": "MAP_NEW_BARK_WOODS",
+      "dest_warp_id": "0"
+    }
+  ],
   "coord_events": [],
   "bg_events": []
 }
