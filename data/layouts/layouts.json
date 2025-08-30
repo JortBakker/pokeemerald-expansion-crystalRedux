@@ -4450,6 +4450,16 @@
       "secondary_tileset": "gTileset_Newbark",
       "border_filepath": "data/layouts/NewBarkTown/border.bin",
       "blockdata_filepath": "data/layouts/NewBarkTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_NEWBARK_TOWN_PROFESSOR_ELMS_LAB",
+      "name": "NewbarkTown_ProfessorElmsLab_Layout",
+      "width": 13,
+      "height": 13,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_Lab",
+      "border_filepath": "data/layouts/NewbarkTown_ProfessorElmsLab/border.bin",
+      "blockdata_filepath": "data/layouts/NewbarkTown_ProfessorElmsLab/map.bin"
     }
   ]
 }

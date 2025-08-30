@@ -1165,3 +1165,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/PorytilesTutorialMap/scripts.inc"
 
 	.include "data/maps/NewBarkTown/scripts.inc"
+
+	.include "data/maps/NewbarkTown_ProfessorElmsLab/scripts.inc"

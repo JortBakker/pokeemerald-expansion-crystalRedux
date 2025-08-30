@@ -155,7 +155,7 @@
       "x": 18,
       "y": 14,
       "elevation": 0,
-      "dest_map": "MAP_STARTING_FARM",
+      "dest_map": "MAP_NEW_BARK_TOWN",
       "dest_warp_id": "0"
     }
   ],

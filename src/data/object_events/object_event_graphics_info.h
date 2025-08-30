@@ -4691,6 +4691,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BallLight = {
     .affineAnims = gDummySpriteAffineAnimTable,
 };
 
+// Own additions
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tauros = { 
     .tileTag = 0xFFFF,
     .paletteTag = OBJ_EVENT_PAL_TAG_TAUROSNEW,
@@ -4707,5 +4708,43 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tauros = {
     .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_Standard,
     .images = gObjectEventPicTable_Tauros,
+    .affineAnims = gDummySpriteAffineAnimTable,
+};
+
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ProfElm= { 
+    .tileTag = 0xFFFF,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PROFELM,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
+    .size = 256,
+    .width = 16,
+    .height = 32,
+    .paletteSlot = 0,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_16x32,
+    .subspriteTables = sOamTables_16x32,
+    .anims = sAnimTable_Standard,
+    .images = gObjectEventPicTable_ProfElm,
+    .affineAnims = gDummySpriteAffineAnimTable,
+};
+
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Silver= { 
+    .tileTag = 0xFFFF,
+    .paletteTag = OBJ_EVENT_PAL_TAG_SILVER,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
+    .size = 256,
+    .width = 16,
+    .height = 32,
+    .paletteSlot = 0,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_16x32,
+    .subspriteTables = sOamTables_16x32,
+    .anims = sAnimTable_Standard,
+    .images = gObjectEventPicTable_Silver,
     .affineAnims = gDummySpriteAffineAnimTable,
 };
