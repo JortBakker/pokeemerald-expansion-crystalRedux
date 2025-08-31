@@ -46,15 +46,20 @@ script ProfElmLab_EventScript_Pokeball{
             hidemonpic
             msgbox("No More Room")
         }
+        waitmessage
+        applymovement(1, FaceRight)
+        waitmovement(0)
+        msgbox(PointInDirection)
+        waitmessage
+
+        // progress to traveling to cherrygrove
+        setvar(VAR_MAIN_STORY, 2)
+
     }
     else{
         hidemonpic
         msgbox(NewProfessor_NotChosen)
     }
-    waitmessage
-    applymovement(1, FaceRight)
-    waitmovement(0)
-    msgbox(PointInDirection)
     waitmessage
     releaseall
     end
@@ -83,10 +88,13 @@ script NicknameBoxMon{
  
 }
 
+// current story point: Meet Elm in his lab
 script StartGiveMon{
     lockall
+
     // progress to picking starter
     setvar(VAR_MAIN_STORY, 1)
+
     msgbox(format("Ah there you are {PLAYER}! Just in time! Come here! I have an important task for you."))
     applymovement(LOCALID_PLAYER, WalkToElm)
     waitmovement(0)
@@ -103,16 +111,18 @@ script StartGiveMon{
     }
     applymovement(1, ElmStepsAside)
     waitmovement(0)
-    // progress to traveling to cherrygrove
-    setvar(VAR_MAIN_STORY, 2)
+
     releaseall
     end
 }
 
 script PreventEscape{
+    lockall
     msgbox(format("Hey don't go yet! You forgot to pick a pokemon!"))
     applymovement(LOCALID_PLAYER, MoveUp)
     waitmovement(0)
+    releaseall
+    end
 }
 
 movement WalkToElm{

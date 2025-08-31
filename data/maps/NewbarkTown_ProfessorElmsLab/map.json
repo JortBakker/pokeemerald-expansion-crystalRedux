@@ -114,9 +114,9 @@
       "x": 7,
       "y": 9,
       "elevation": 0,
-      "var": "VAR_TEMP_0",
-      "var_value": "0",
-      "script": "NULL"
+      "var": "VAR_MAIN_STORY",
+      "var_value": "1",
+      "script": "PreventEscape"
     }
   ],
   "bg_events": []

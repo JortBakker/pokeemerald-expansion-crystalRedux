@@ -26,22 +26,14 @@ ProfElmLab_EventScript_Pokeball_1:
 # 28 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	compare VAR_RESULT, YES
 	goto_if_eq ProfElmLab_EventScript_Pokeball_8
-# 51 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 60 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	hidemonpic
-# 52 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 61 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox NewProfessor_NotChosen
 ProfElmLab_EventScript_Pokeball_7:
-# 54 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 63 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	waitmessage
-# 55 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	applymovement 1, FaceRight
-# 56 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	waitmovement 0
-# 57 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	msgbox PointInDirection
-# 58 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	waitmessage
-# 59 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 64 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	releaseall
 	end
 
@@ -70,17 +62,30 @@ ProfElmLab_EventScript_Pokeball_8:
 	setflag FLAG_SYS_POKEMON_GET
 # 31 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	compare VAR_RESULT, MON_GIVEN_TO_PARTY
-	goto_if_eq ProfElmLab_EventScript_Pokeball_11
+	goto_if_eq ProfElmLab_EventScript_Pokeball_12
 # 38 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	compare VAR_RESULT, MON_GIVEN_TO_PC
-	goto_if_eq ProfElmLab_EventScript_Pokeball_12
+	goto_if_eq ProfElmLab_EventScript_Pokeball_13
 # 46 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	hidemonpic
 # 47 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox ProfElmLab_EventScript_Pokeball_Text_2
+ProfElmLab_EventScript_Pokeball_11:
+# 49 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	waitmessage
+# 50 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	applymovement 1, FaceRight
+# 51 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	waitmovement 0
+# 52 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	msgbox PointInDirection
+# 53 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	waitmessage
+# 56 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	setvar VAR_MAIN_STORY, 2
 	goto ProfElmLab_EventScript_Pokeball_7
 
-ProfElmLab_EventScript_Pokeball_11:
+ProfElmLab_EventScript_Pokeball_12:
 # 32 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	playfanfare MUS_OBTAIN_ITEM
 # 33 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
@@ -91,9 +96,9 @@ ProfElmLab_EventScript_Pokeball_11:
 	setflag FLAG_UNUSED_0x020
 # 36 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	call NicknamePartyMon
-	goto ProfElmLab_EventScript_Pokeball_7
+	goto ProfElmLab_EventScript_Pokeball_11
 
-ProfElmLab_EventScript_Pokeball_12:
+ProfElmLab_EventScript_Pokeball_13:
 # 39 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	playfanfare MUS_OBTAIN_ITEM
 # 40 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
@@ -104,117 +109,136 @@ ProfElmLab_EventScript_Pokeball_12:
 	setflag FLAG_UNUSED_0x020
 # 43 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	call NicknameBoxMon
-	goto ProfElmLab_EventScript_Pokeball_7
+	goto ProfElmLab_EventScript_Pokeball_11
 
 
 NicknamePartyMon::
-# 65 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 70 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox NicknamePartyMon_Text_0, MSGBOX_YESNO
-# 66 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 71 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	hidemonpic
-# 67 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 72 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	compare VAR_RESULT, YES
 	goto_if_eq NicknamePartyMon_1
 	return
 
 NicknamePartyMon_1:
-# 68 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 73 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	call Common_EventScript_GetGiftMonPartySlot
-# 69 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 74 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	call Common_EventScript_NameReceivedPartyMon
 	return
 
 
 NicknameBoxMon::
-# 77 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 82 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox NicknamePartyMon_Text_0, MSGBOX_YESNO
-# 78 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 83 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	hidemonpic
-# 79 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 84 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	compare VAR_RESULT, YES
 	goto_if_eq NicknameBoxMon_2
 NicknameBoxMon_1:
-# 82 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 87 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	call Common_EventScript_TransferredToPC
 	return
 
 NicknameBoxMon_2:
-# 80 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 85 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	call Common_EventScript_NameReceivedBoxMon
 	goto NicknameBoxMon_1
 
 
 StartGiveMon::
-# 87 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 93 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	lockall
-# 88 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 96 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	setvar VAR_MAIN_STORY, 1
+# 98 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox StartGiveMon_Text_0
-# 89 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 99 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	applymovement LOCALID_PLAYER, WalkToElm
-# 90 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 100 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	waitmovement 0
-# 91 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 101 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox Elm_Gives_Task
 StartGiveMon_2:
-# 93 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 103 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox StartGiveMon_Text_1, MSGBOX_YESNO
-# 94 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 104 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	compare VAR_RESULT, YES
 	goto_if_eq StartGiveMon_4
-# 99 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 109 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox StartGiveMon_Text_2
 	goto StartGiveMon_2
 
 StartGiveMon_1:
-# 102 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	msgbox StartGiveMon_Text_3
-# 103 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 112 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	applymovement 1, ElmStepsAside
-# 104 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 113 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	waitmovement 0
-# 105 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	setvar VAR_MAIN_STORY, 2
-# 106 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 115 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	releaseall
 	end
 
 StartGiveMon_4:
-# 95 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 105 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	msgbox Accepted_Task
 	goto StartGiveMon_1
 
 
-# 110 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-WalkToElm:
-# 111 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	walk_up
-# 111 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	walk_up
-# 111 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	walk_up
-# 111 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	walk_up
-# 112 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	step_end
-
-# 115 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-ElmStepsAside:
-# 116 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	face_left
-# 117 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	walk_left
-# 117 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	walk_left
-# 118 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	face_down
-# 119 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	step_end
-
+PreventEscape::
+# 120 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	lockall
+# 121 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	msgbox PreventEscape_Text_0
 # 122 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-FaceRight:
+	applymovement LOCALID_PLAYER, MoveUp
 # 123 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	face_right
+	waitmovement 0
 # 124 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	releaseall
+	end
+
+
+# 128 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+WalkToElm:
+# 129 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	walk_up
+# 129 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	walk_up
+# 129 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	walk_up
+# 129 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	walk_up
+# 130 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	step_end
+
+# 133 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+ElmStepsAside:
+# 134 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	face_left
+# 135 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	walk_left
+# 135 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	walk_left
+# 136 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	face_down
+# 137 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	step_end
+
+# 140 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+FaceRight:
+# 141 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	face_right
+# 142 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	step_end
+
+# 145 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+MoveUp:
+# 146 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	walk_up
+# 147 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	step_end
 
 ProfElmLab_EventScript_Pokeball_Text_0:
@@ -230,34 +254,35 @@ ProfElmLab_EventScript_Pokeball_Text_2:
 	.string "No More Room$"
 
 NicknamePartyMon_Text_0:
-# 65 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 70 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "Give it a nickname?$"
 
 StartGiveMon_Text_0:
-# 88 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 98 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "Ah there you are {PLAYER}! Just in\n"
 	.string "time! Come here! I have an important\l"
 	.string "task for you.$"
 
 StartGiveMon_Text_1:
-# 93 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 103 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "Could you go over to his house and get\n"
 	.string "the supplies I need?$"
 
 StartGiveMon_Text_2:
-# 99 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 109 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "Please {PLAYER}, it is of utmost importance!$"
 
-StartGiveMon_Text_3:
-# 102 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
-	.string "test$"
+PreventEscape_Text_0:
+# 121 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	.string "Hey don't go yet! You forgot to pick a\n"
+	.string "pokemon!$"
 
 NewProfessor_NotChosen::
-# 127 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 150 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "You did not choose the Pokemon$"
 
 Elm_Gives_Task::
-# 131 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 154 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "I need your help {PLAYER}. I am\n"
 	.string "writing a paper on pokemon evolutions\l"
 	.string "and I need some supplies that a good\l"
@@ -266,7 +291,7 @@ Elm_Gives_Task::
 	.string "all the way to his house.$"
 
 Accepted_Task::
-# 139 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 162 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "Splendid! I believe you don't have a\n"
 	.string "pokemon yet right? Then as\l"
 	.string "compensation I will let you choose one\l"
@@ -275,9 +300,14 @@ Accepted_Task::
 	.string "wisely.$"
 
 PointInDirection::
-# 146 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+# 169 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
 	.string "Great choice! I'm sure you two will\n"
 	.string "become great partners! Now please\l"
 	.string "hurry! We need those supplies A.S.A.P.\l"
-	.string "Mr. Pokemon lives lives just past\l"
-	.string "Cherrygrove City. Good luck!$"
+	.string "Mr. Pokemon lives just past Cherrygrove\l"
+	.string "City. Good luck!$"
+
+ReminderDirection::
+# 175 "data/maps/NewbarkTown_ProfessorElmsLab/scripts.pory"
+	.string "Mr. Pokemon lives just past Cherrygrove\n"
+	.string "City. Good luck!$"
