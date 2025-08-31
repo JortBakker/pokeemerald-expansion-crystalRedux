@@ -16,12 +16,12 @@
   "object_events": [
     {
       "graphics_id": "OBJ_EVENT_GFX_PROFELM",
-      "x": 3,
-      "y": 4,
+      "x": 7,
+      "y": 3,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
+      "movement_range_x": 0,
+      "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
@@ -41,6 +41,7 @@
       "flag": "0"
     },
     {
+      "local_id": "BALL1",
       "graphics_id": "OBJ_EVENT_GFX_POKE_BALL",
       "x": 6,
       "y": 2,
@@ -50,10 +51,11 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "ProfElmLab_EventScript_Pokeball",
+      "flag": "FLAG_UNUSED_0x020"
     },
     {
+      "local_id": "BALL2",
       "graphics_id": "OBJ_EVENT_GFX_POKE_BALL",
       "x": 7,
       "y": 2,
@@ -63,10 +65,11 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "ProfElmLab_EventScript_Pokeball",
+      "flag": "FLAG_UNUSED_0x020"
     },
     {
+      "local_id": "BALL3",
       "graphics_id": "OBJ_EVENT_GFX_POKE_BALL",
       "x": 8,
       "y": 2,
@@ -76,8 +79,8 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "ProfElmLab_EventScript_Pokeball",
+      "flag": "FLAG_UNUSED_0x020"
     }
   ],
   "warp_events": [
@@ -96,6 +99,25 @@
       "dest_warp_id": "5"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_MAIN_STORY",
+      "var_value": "0",
+      "script": "StartGiveMon"
+    },
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 9,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "NULL"
+    }
+  ],
   "bg_events": []
 }

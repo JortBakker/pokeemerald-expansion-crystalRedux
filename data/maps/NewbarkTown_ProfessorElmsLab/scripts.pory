@@ -1,0 +1,167 @@
+raw `
+NewbarkTown_ProfessorElmsLab_MapScripts::
+	.byte 0
+`
+
+const mon1 = SPECIES_CHIKORITA
+const mon2 = SPECIES_TOTODILE
+const mon3 = SPECIES_CYNDAQUIL
+ 
+script ProfElmLab_EventScript_Pokeball{
+    lockall
+    if(var(VAR_LAST_TALKED) == BALL1){
+        showmonpic(mon1, 10,3)
+        setvar(VAR_TEMP_0, mon1)
+        bufferspeciesname(STR_VAR_1, mon1)
+    }
+    elif(var(VAR_LAST_TALKED) == BALL2){
+        showmonpic(mon2, 10,3)
+        setvar(VAR_TEMP_0, mon2)
+        bufferspeciesname(STR_VAR_1, mon2)
+    }
+    else{
+        showmonpic(mon3, 10,3)
+        setvar(VAR_TEMP_0, mon3)
+        bufferspeciesname(STR_VAR_1, mon3)
+    }
+    msgbox("Do you want to choose {STR_VAR_1}?", MSGBOX_YESNO)
+    if(var(VAR_RESULT) == YES){
+        givemon(VAR_TEMP_0, 5)
+        setflag(FLAG_SYS_POKEMON_GET)
+        if(var(VAR_RESULT) == MON_GIVEN_TO_PARTY){
+            playfanfare(MUS_OBTAIN_ITEM)
+            msgbox("Recieved {STR_VAR_1}")
+            removeobject(VAR_LAST_TALKED)
+            setflag(FLAG_UNUSED_0x020)
+            call(NicknamePartyMon)
+        }
+        elif(var(VAR_RESULT) == MON_GIVEN_TO_PC){
+            playfanfare(MUS_OBTAIN_ITEM)
+            msgbox("Recieved {STR_VAR_1}")
+            removeobject(VAR_LAST_TALKED)
+            setflag(FLAG_UNUSED_0x020)
+            call(NicknameBoxMon)
+        }
+        else{
+            hidemonpic
+            msgbox("No More Room")
+        }
+    }
+    else{
+        hidemonpic
+        msgbox(NewProfessor_NotChosen)
+    }
+    waitmessage
+    applymovement(1, FaceRight)
+    waitmovement(0)
+    msgbox(PointInDirection)
+    waitmessage
+    releaseall
+    end
+}
+ 
+script NicknamePartyMon{
+ 
+    msgbox("Give it a nickname?", MSGBOX_YESNO)
+    hidemonpic
+    if(var(VAR_RESULT) == YES){
+        call(Common_EventScript_GetGiftMonPartySlot)
+        call(Common_EventScript_NameReceivedPartyMon)
+    }
+ 
+ 
+}
+ 
+script NicknameBoxMon{
+ 
+    msgbox("Give it a nickname?", MSGBOX_YESNO)
+    hidemonpic
+    if(var(VAR_RESULT) == YES){
+        call(Common_EventScript_NameReceivedBoxMon)
+    }
+    call(Common_EventScript_TransferredToPC)
+ 
+}
+
+script StartGiveMon{
+    lockall
+    // progress to picking starter
+    setvar(VAR_MAIN_STORY, 1)
+    msgbox(format("Ah there you are {PLAYER}! Just in time! Come here! I have an important task for you."))
+    applymovement(LOCALID_PLAYER, WalkToElm)
+    waitmovement(0)
+    msgbox(Elm_Gives_Task)
+    while {
+        msgbox(format("Could you go over to his house and get the supplies I need?"), MSGBOX_YESNO)
+        if (var(VAR_RESULT) == YES){
+            msgbox(Accepted_Task)
+            break
+        }
+        else{
+            msgbox("Please {PLAYER}, it is of utmost importance!")
+        }
+    }
+    applymovement(1, ElmStepsAside)
+    waitmovement(0)
+    // progress to traveling to cherrygrove
+    setvar(VAR_MAIN_STORY, 2)
+    releaseall
+    end
+}
+
+script PreventEscape{
+    msgbox(format("Hey don't go yet! You forgot to pick a pokemon!"))
+    applymovement(LOCALID_PLAYER, MoveUp)
+    waitmovement(0)
+}
+
+movement WalkToElm{
+    walk_up * 4
+    step_end
+}
+
+movement ElmStepsAside{
+    face_left
+    walk_left * 2
+    face_down
+    step_end
+}
+
+movement FaceRight{
+    face_right
+    step_end
+}
+
+movement MoveUp{
+    walk_up
+    step_end
+}
+ 
+text NewProfessor_NotChosen{
+    "You did not choose the Pokemon"
+}
+
+text Elm_Gives_Task{
+    format("I need your help {PLAYER}.
+    I am writing a paper on pokemon evolutions and
+    I need some supplies that a good friend of mine has.
+    But me and my assistant are both way too busy
+    to go all the way to his house.")
+}
+
+text Accepted_Task{
+    format("Splendid! I believe you don't have a pokemon yet right?
+    Then as compensation I will let you choose one of these
+    three pokemon behind me as your very first companion
+    so choose wisely.")
+}
+
+text PointInDirection{
+    format("Great choice! I'm sure you two will become great partners!
+    Now please hurry! We need those supplies A.S.A.P. Mr. Pokemon lives
+    just past Cherrygrove City. Good luck!")
+}
+
+text ReminderDirection{
+    format("Mr. Pokemon lives just past Cherrygrove City. Good luck!")
+}
