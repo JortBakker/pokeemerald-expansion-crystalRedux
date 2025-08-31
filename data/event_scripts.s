@@ -1167,3 +1167,7 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/NewBarkTown/scripts.inc"
 
 	.include "data/maps/NewbarkTown_ProfessorElmsLab/scripts.inc"
+
+	.include "data/maps/Newbarktown_PlayerHouse1F/scripts.inc"
+
+	.include "data/maps/Newbarktown_PlayerHouse2F/scripts.inc"

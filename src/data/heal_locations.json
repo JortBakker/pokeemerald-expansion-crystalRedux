@@ -137,6 +137,12 @@
       "map": "MAP_STARTING_FARM",
       "x": 20,
       "y": 20
+    },
+    {
+      "id": "HEAL_LOCATION_NEW_BARK_TOWN",
+      "map": "MAP_NEW_BARK_TOWN",
+      "x": 33,
+      "y": 30
     }
   ]
 }

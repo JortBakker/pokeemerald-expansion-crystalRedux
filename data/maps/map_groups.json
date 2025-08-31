@@ -627,6 +627,8 @@
     "Route124_DivingTreasureHuntersHouse"
   ],
   "gMapGroup_IndoorNewbark": [
-    "NewbarkTown_ProfessorElmsLab"
+    "NewbarkTown_ProfessorElmsLab",
+    "Newbarktown_PlayerHouse1F",
+    "Newbarktown_PlayerHouse2F"
   ]
 }

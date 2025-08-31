@@ -1,0 +1,4 @@
+Remember that you can also always free up space by axing things you don't care about
+removing record mixing secret bases (which no one even remembers exist!) gives you like 2400 bytes or some shit
+Look for SECRET_BASES_COUNT  I believe and just drop it to 1
+You could drop it to 0 but you might need to tweak some more code to account for it, and this is the lazy mf's way of freeing up save space
