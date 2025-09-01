@@ -106,7 +106,7 @@
       "y": 8,
       "elevation": 0,
       "var": "VAR_MAIN_STORY",
-      "var_value": "0",
+      "var_value": "1",
       "script": "StartGiveMon"
     },
     {
@@ -115,7 +115,7 @@
       "y": 9,
       "elevation": 0,
       "var": "VAR_MAIN_STORY",
-      "var_value": "1",
+      "var_value": "2",
       "script": "PreventEscape"
     }
   ],

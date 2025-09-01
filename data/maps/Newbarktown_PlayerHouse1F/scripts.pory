@@ -1,0 +1,45 @@
+mapscripts Newbarktown_PlayerHouse1F_MapScripts {}
+
+script GreetedByMom{
+    lockall
+    applymovement(1, FaceUp)
+    waitmovement
+    msgbox(format("Oh there you are {PLAYER}!"))
+    applymovement(1, WalkUpToPlayer)
+    waitmovement
+    msgbox(format("Professor Elm called asking for you. It sounds like he needs your help with something {PLAYER}.
+    You should meet him at his lab but he better not get you into any trouble though or I'll know where to find him!"))
+    applymovement(1, WalkBackToChair)
+    waitmovement
+
+    // Progress to: Meet Elm in his lab
+    setvar(VAR_MAIN_STORY, 1)
+
+    releaseall
+    end
+}
+
+movement FaceUp{
+    face_up
+    step_end
+}
+
+movement WalkUpToPlayer{
+    face_up
+    walk_up
+    face_left
+    walk_left
+    face_up
+    walk_up * 2
+    step_end
+}
+
+movement WalkBackToChair{
+    face_down
+    walk_down * 2
+    face_right
+    walk_right
+    face_down
+    walk_down
+    face_right
+}

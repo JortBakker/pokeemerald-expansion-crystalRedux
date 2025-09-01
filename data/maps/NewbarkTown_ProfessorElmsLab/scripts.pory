@@ -6,7 +6,8 @@ NewbarkTown_ProfessorElmsLab_MapScripts::
 const mon1 = SPECIES_CHIKORITA
 const mon2 = SPECIES_TOTODILE
 const mon3 = SPECIES_CYNDAQUIL
- 
+
+// Current story point: Pick a starter
 script ProfElmLab_EventScript_Pokeball{
     lockall
     if(var(VAR_LAST_TALKED) == BALL1){
@@ -53,7 +54,7 @@ script ProfElmLab_EventScript_Pokeball{
         waitmessage
 
         // progress to traveling to cherrygrove
-        setvar(VAR_MAIN_STORY, 2)
+        setvar(VAR_MAIN_STORY, 3)
 
     }
     else{
@@ -91,10 +92,6 @@ script NicknameBoxMon{
 // current story point: Meet Elm in his lab
 script StartGiveMon{
     lockall
-
-    // progress to picking starter
-    setvar(VAR_MAIN_STORY, 1)
-
     msgbox(format("Ah there you are {PLAYER}! Just in time! Come here! I have an important task for you."))
     applymovement(LOCALID_PLAYER, WalkToElm)
     waitmovement(0)
@@ -111,6 +108,9 @@ script StartGiveMon{
     }
     applymovement(1, ElmStepsAside)
     waitmovement(0)
+
+    // progress to picking starter
+    setvar(VAR_MAIN_STORY, 2)
 
     releaseall
     end
@@ -169,9 +169,10 @@ text Accepted_Task{
 text PointInDirection{
     format("Great choice! I'm sure you two will become great partners!
     Now please hurry! We need those supplies A.S.A.P. Mr. Pokemon lives
-    just past Cherrygrove City. Good luck!")
+    just past Cherrygrove City, it's just west of this town. Good luck!")
 }
 
 text ReminderDirection{
-    format("Mr. Pokemon lives just past Cherrygrove City. Good luck!")
+    format("Mr. Pokemon lives just past Cherrygrove City, just take route 29 west of here.
+     Good luck!")
 }
