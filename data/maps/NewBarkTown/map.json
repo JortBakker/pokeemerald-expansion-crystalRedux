@@ -6,7 +6,7 @@
   "region_map_section": "MAPSEC_NEW_BARK_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
-  "map_type": "MAP_TYPE_NONE",
+  "map_type": "MAP_TYPE_TOWN",
   "allow_cycling": true,
   "allow_escaping": false,
   "allow_running": true,
@@ -125,8 +125,8 @@
       "x": 34,
       "y": 17,
       "elevation": 0,
-      "dest_map": "MAP_NEW_BARK_TOWN",
-      "dest_warp_id": "0"
+      "dest_map": "MAP_CHERRY_GROVE_CITY",
+      "dest_warp_id": "2"
     },
     {
       "x": 27,

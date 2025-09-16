@@ -143,6 +143,18 @@
       "map": "MAP_NEW_BARK_TOWN",
       "x": 33,
       "y": 30
+    },
+    {
+      "id": "HEAL_LOCATION_NEW_BARK_TOWN_2",
+      "map": "MAP_NEW_BARK_TOWN",
+      "x": 13,
+      "y": 17
+    },
+    {
+      "id": "HEAL_LOCATION_CHERRY_GROVE_CITY",
+      "map": "MAP_CHERRY_GROVE_CITY",
+      "x": 14,
+      "y": 18
     }
   ]
 }

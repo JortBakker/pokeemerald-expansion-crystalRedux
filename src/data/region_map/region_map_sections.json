@@ -1238,6 +1238,10 @@
     {
       "id": "MAPSEC_ROUTE_29",
       "name": "ROUTE 29"
+    },
+    {
+      "id": "MAPSEC_CHERRY_GROVE_CITY",
+      "name": "CHERRY GROVE CITY"
     }
   ]
 }
