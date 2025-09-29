@@ -16,25 +16,39 @@
   "object_events": [],
   "warp_events": [
     {
-      "x": 48,
+      "x": 50,
       "y": 22,
       "elevation": 0,
       "dest_map": "MAP_ROUTE29",
       "dest_warp_id": "0"
     },
     {
-      "x": 48,
-      "y": 23,
-      "elevation": 0,
-      "dest_map": "MAP_ROUTE29",
-      "dest_warp_id": "1"
-    },
-    {
-      "x": 37,
+      "x": 39,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_NEW_BARK_TOWN",
       "dest_warp_id": "3"
+    },
+    {
+      "x": 19,
+      "y": 7,
+      "elevation": 0,
+      "dest_map": "MAP_CHERRY_GROVE_CITY",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 7,
+      "y": 26,
+      "elevation": 0,
+      "dest_map": "MAP_CHERRY_GROVE_CITY",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 7,
+      "y": 25,
+      "elevation": 0,
+      "dest_map": "MAP_CHERRY_GROVE_CITY",
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],

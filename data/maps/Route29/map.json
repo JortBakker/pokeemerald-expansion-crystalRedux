@@ -22,18 +22,11 @@
   "object_events": [],
   "warp_events": [
     {
-      "x": 8,
+      "x": 7,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_CHERRY_GROVE_CITY",
       "dest_warp_id": "0"
-    },
-    {
-      "x": 8,
-      "y": 10,
-      "elevation": 0,
-      "dest_map": "MAP_CHERRY_GROVE_CITY",
-      "dest_warp_id": "1"
     }
   ],
   "coord_events": [],
