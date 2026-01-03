@@ -242,6 +242,12 @@ const u16 gObjectEventPal_SSTidal[] = INCBIN_U16("graphics/object_events/palette
 const u32 gObjectEventPic_TaurosNew[] = INCBIN_U32("graphics/object_events/pics/pokemon_new/tauros.4bpp");
 const u16 gObjectEventPal_TaurosNew[] = INCBIN_U16("graphics/object_events/palettes/tauros.gbapal");
 
+const u32 gObjectEventPic_ProfElm[] = INCBIN_U32("graphics/object_events/pics/people/prof_elm.4bpp");
+const u16 gObjectEventPal_ProfElm[] = INCBIN_U16("graphics/object_events/palettes/OwnPalettes/prof_elm.gbapal");
+
+const u32 gObjectEventPic_Silver[] = INCBIN_U32("graphics/object_events/pics/people/silver.4bpp");
+const u16 gObjectEventPal_Silver[] = INCBIN_U16("graphics/object_events/palettes/OwnPalettes/silver.gbapal");
+
 const u32 gFieldEffectObjectPic_Sparkle[] = INCBIN_U32("graphics/field_effects/pics/sparkle.4bpp");
 const u32 gObjectEventPic_BerryTreeDirtPile[] = INCBIN_U32("graphics/object_events/pics/berry_trees/dirt_pile.4bpp");
 const u32 gObjectEventPic_BerryTreeSprout[] = INCBIN_U32("graphics/object_events/pics/berry_trees/sprout.4bpp");

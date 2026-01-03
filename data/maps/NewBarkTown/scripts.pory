@@ -1,0 +1,25 @@
+mapscripts NewBarkTown_MapScripts {}
+
+script GrannyLostHoppip {
+    lockall
+    faceplayer
+    msgbox(format("Grandma: Oh dear... I seem to have lost Strawberry (hoppip) again... where could she be?..."))
+    releaseall
+}
+
+script Fisherman {
+    lockall
+    faceplayer
+    if (var(VAR_MAIN_STORY) >= 3 && !checkitem(ITEM_OLD_ROD)) {
+            msgbox(format("Taiho: Heyo kiddo! I heard ya got yourself your very own pokemon,
+                that's awesome! You know what... if you're going on your own journey you should have this, 
+                it'll come in handy!"))
+            giveitem(ITEM_OLD_ROD)
+            msgbox(format("Happy fishing!"))
+    }
+    else {
+        msgbox(format("Taiho: Heyo {PLAYER}, ya here to pick up some freshly caught magikarp for you and your mom?
+        This batch came from upstream near the lake of rage, some of them even have a funky different color!"))
+    }
+    releaseall
+}

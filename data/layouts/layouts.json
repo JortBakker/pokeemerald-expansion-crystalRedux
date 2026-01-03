@@ -4446,10 +4446,60 @@
       "name": "NewBarkTown_Layout",
       "width": 52,
       "height": 40,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Newbark",
+      "primary_tileset": "gTileset_Primary_Town_1",
+      "secondary_tileset": "gTileset_compilingtest",
       "border_filepath": "data/layouts/NewBarkTown/border.bin",
       "blockdata_filepath": "data/layouts/NewBarkTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_NEWBARK_TOWN_PROFESSOR_ELMS_LAB",
+      "name": "NewbarkTown_ProfessorElmsLab_Layout",
+      "width": 13,
+      "height": 13,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_Lab",
+      "border_filepath": "data/layouts/NewbarkTown_ProfessorElmsLab/border.bin",
+      "blockdata_filepath": "data/layouts/NewbarkTown_ProfessorElmsLab/map.bin"
+    },
+    {
+      "id": "LAYOUT_NEWBARKTOWN_PLAYER_HOUSE1F",
+      "name": "Newbarktown_PlayerHouse1F_Layout",
+      "width": 17,
+      "height": 11,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_BrendansMaysHouse",
+      "border_filepath": "data/layouts/Newbarktown_PlayerHouse1F/border.bin",
+      "blockdata_filepath": "data/layouts/Newbarktown_PlayerHouse1F/map.bin"
+    },
+    {
+      "id": "LAYOUT_NEWBARKTOWN_PLAYER_HOUSE2F",
+      "name": "Newbarktown_PlayerHouse2F_Layout",
+      "width": 8,
+      "height": 8,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_BrendansMaysHouse",
+      "border_filepath": "data/layouts/Newbarktown_PlayerHouse2F/border.bin",
+      "blockdata_filepath": "data/layouts/Newbarktown_PlayerHouse2F/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE29",
+      "name": "Route29_Layout",
+      "width": 58,
+      "height": 20,
+      "primary_tileset": "gTileset_Primary_Town_1",
+      "secondary_tileset": "gTileset_compilingtest",
+      "border_filepath": "data/layouts/Route29/border.bin",
+      "blockdata_filepath": "data/layouts/Route29/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHERRY_GROVE_CITY",
+      "name": "CherryGroveCity_Layout",
+      "width": 58,
+      "height": 53,
+      "primary_tileset": "gTileset_Primary_City1",
+      "secondary_tileset": "gTileset_CherryGrove",
+      "border_filepath": "data/layouts/CherryGroveCity/border.bin",
+      "blockdata_filepath": "data/layouts/CherryGroveCity/map.bin"
     }
   ]
 }

@@ -490,7 +490,7 @@
     },
     {
       "id": "MAPSEC_ABANDONED_SHIP",
-      "name": "NEWBARK TOWN",
+      "name": "NEW BARK TOWN",
       "x": 6,
       "y": 14,
       "width": 1,
@@ -1230,6 +1230,18 @@
       "y": 4,
       "width": 1,
       "height": 1
+    },
+    {
+      "id": "MAPSEC_NEW_BARK_TOWN",
+      "name": "NEW BARK TOWN"
+    },
+    {
+      "id": "MAPSEC_ROUTE_29",
+      "name": "ROUTE 29"
+    },
+    {
+      "id": "MAPSEC_CHERRY_GROVE_CITY",
+      "name": "CHERRY GROVE CITY"
     }
   ]
 }
