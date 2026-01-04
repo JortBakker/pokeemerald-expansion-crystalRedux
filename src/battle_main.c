@@ -864,7 +864,9 @@ static void CB2_HandleStartBattle(void)
         if (gWirelessCommType)
             LoadWirelessStatusIndicatorSpriteGfx();
         break;
+    // Determine Battle type online/offline
     case 1:
+        // Online
         if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         {
             if (gReceivedRemoteLinkPlayers)
@@ -890,6 +892,7 @@ static void CB2_HandleStartBattle(void)
                     CreateWirelessStatusIndicatorSprite(0, 0);
             }
         }
+        // Regular offline battle
         else
         {
             if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
@@ -2970,6 +2973,7 @@ void BeginBattleIntro(void)
     gBattleMainFunc = DoBattleIntro;
 }
 
+// Main battle loop?
 static void BattleMainCB1(void)
 {
     u32 battler;
