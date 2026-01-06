@@ -388,6 +388,10 @@ struct SpeciesInfo /*0xC4*/
     u8 growthRate;
     u8 eggGroups[2];
     u16 abilities[NUM_ABILITY_SLOTS]; // 3 abilities, no longer u8 because we have over 255 abilities now.
+    
+    // Added sub-abilities
+    u16 subAbilities[3];
+
     u8 safariZoneFleeRate;
 
     // Pokédex data
@@ -830,5 +834,7 @@ uq4_12_t GetDynamaxLevelHPMultiplier(u32 dynamaxLevel, bool32 inverseMultiplier)
 u32 GetRegionalFormByRegion(u32 species, u32 region);
 bool32 IsSpeciesForeignRegionalForm(u32 species, u32 currentRegion);
 u32 GetTeraTypeFromPersonality(struct Pokemon *mon);
+bool8 SpeciesHasSubAbility(u16 species, u16 ability);
+u16 GetSubAbilityBySpecies(u16 species, u8 abilityNum);
 
 #endif // GUARD_POKEMON_H

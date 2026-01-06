@@ -47,6 +47,16 @@ Fisherman_4:
 	goto Fisherman_3
 
 
+LittlerootTown_EventScript_TestBattle::
+# 28 "data/maps/NewBarkTown/scripts.pory"
+	trainerbattle_single TRAINER_MAY_ROUTE_103_TORCHIC, May_Intro, May_Outro
+# 29 "data/maps/NewBarkTown/scripts.pory"
+	msgbox PostBattle_May, MSGBOX_AUTOCLOSE
+# 30 "data/maps/NewBarkTown/scripts.pory"
+	waitmessage
+	end
+
+
 GrannyLostHoppip_Text_0:
 # 6 "data/maps/NewBarkTown/scripts.pory"
 	.string "Grandma: Oh dear... I seem to have lost\n"
@@ -72,3 +82,15 @@ Fisherman_Text_2:
 	.string "you and your mom? This batch came from\l"
 	.string "upstream near the lake of rage, some of\l"
 	.string "them even have a funky different color!$"
+
+May_Intro::
+# 35 "data/maps/NewBarkTown/scripts.pory"
+	.string "You'll never win$"
+
+May_Outro::
+# 39 "data/maps/NewBarkTown/scripts.pory"
+	.string "Doesn't count$"
+
+PostBattle_May::
+# 43 "data/maps/NewBarkTown/scripts.pory"
+	.string "I'll win next time$"

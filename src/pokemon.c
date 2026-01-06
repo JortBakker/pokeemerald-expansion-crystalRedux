@@ -7168,3 +7168,35 @@ u32 GetTeraTypeFromPersonality(struct Pokemon *mon)
     const u8 *types = gSpeciesInfo[GetMonData(mon, MON_DATA_SPECIES)].types;
     return (GetMonData(mon, MON_DATA_PERSONALITY) & 0x1) == 0 ? types[0] : types[1];
 }
+
+bool8 SpeciesHasSubAbility(u16 species, u16 ability){
+    u16 innate1 = gSpeciesInfo[species].subAbilities[0];
+    u16 innate2 = gSpeciesInfo[species].subAbilities[1];
+    u16 innate3 = gSpeciesInfo[species].subAbilities[2];
+
+    if(innate1 == ability)
+        return TRUE;
+    else if(innate2 == ability)
+        return TRUE;
+    else if(innate3 == ability)
+        return TRUE;
+	else
+	    return FALSE;
+}
+
+u16 GetSubAbilityBySpecies(u16 species, u8 abilityNum)
+{
+    if (abilityNum < NUM_ABILITY_SLOTS) {
+        u16 Ability = gSpeciesInfo[species].subAbilities[abilityNum];
+        if (Ability != 0) {
+            gLastUsedAbility = gSpeciesInfo[species].subAbilities[abilityNum];
+        }
+        else {
+            gLastUsedAbility = ABILITY_NONE;
+        }
+    }
+    else
+        gLastUsedAbility = ABILITY_NONE;
+
+    return gLastUsedAbility;
+}

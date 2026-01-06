@@ -23,3 +23,23 @@ script Fisherman {
     }
     releaseall
 }
+
+script LittlerootTown_EventScript_TestBattle{
+	trainerbattle_single(TRAINER_MAY_ROUTE_103_TORCHIC, May_Intro, May_Outro)
+	msgbox(PostBattle_May, MSGBOX_AUTOCLOSE) 
+	waitmessage
+    end
+ 
+}
+
+text May_Intro{
+    "You'll never win"
+}
+ 
+text May_Outro{
+    "Doesn't count"
+}
+ 
+text PostBattle_May{
+    "I'll win next time"
+}
