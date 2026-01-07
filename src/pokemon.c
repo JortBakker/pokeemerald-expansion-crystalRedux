@@ -7200,3 +7200,18 @@ u16 GetSubAbilityBySpecies(u16 species, u8 abilityNum)
 
     return gLastUsedAbility;
 }
+
+u8 SpeciesNumSubAbility(u16 species, u16 ability){
+    u16 innate1 = gSpeciesInfo[species].subAbilities[0];
+    u16 innate2 = gSpeciesInfo[species].subAbilities[1];
+    u16 innate3 = gSpeciesInfo[species].subAbilities[2];
+
+    if(innate1 == ability)
+        return 1;
+    else if(innate2 == ability)
+        return 2;
+    else if(innate3 == ability)
+        return 3;
+	else
+	    return 0;
+}

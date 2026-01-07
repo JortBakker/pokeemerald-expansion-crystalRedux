@@ -212,7 +212,10 @@ struct SpecialStatus
     // End of byte
     u8 dancerUsedMove:1;
     u8 dancerOriginalTarget:3;
-    u8 unused:4;
+    u8 switchInSubAbility1Done:1;
+    u8 switchInSubAbility2Done:1;
+    u8 switchInSubAbility3Done:1;
+    u8 unused:1;
     // End of byte
 };
 

@@ -23,6 +23,10 @@
 #define MOVE_LIMITATION_PLACEHOLDER             (1 << 15)
 #define MOVE_LIMITATIONS_ALL                    0xFFFF
 
+#define BATTLER_NONE                            0
+#define BATTLER_ABILITY                         1
+#define BATTLER_SUBABILITY                      2
+
 enum NonVolatileStatus
 {
     STATUS_CHECK_TRIGGER,
@@ -387,5 +391,9 @@ void UpdateStallMons(void);
 bool32 TryRestoreHPBerries(u32 battler, enum ItemCaseId caseId);
 
 bool8 BattlerHasSubAbility(u32 battler, u32 ability);
+u8 BattlerSubOrMainAbility(u32 battler, u16 ability);
+void SetSwitchInSubDone(u32 battler, u8 i);
+void ClearSwitchInSub(u32 battler, u8 i);
+bool8 GetSwitchInSubDone(u32 battler, u8 i);
 
 #endif // GUARD_BATTLE_UTIL_H

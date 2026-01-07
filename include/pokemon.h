@@ -836,5 +836,6 @@ bool32 IsSpeciesForeignRegionalForm(u32 species, u32 currentRegion);
 u32 GetTeraTypeFromPersonality(struct Pokemon *mon);
 bool8 SpeciesHasSubAbility(u16 species, u16 ability);
 u16 GetSubAbilityBySpecies(u16 species, u8 abilityNum);
+u8 SpeciesNumSubAbility(u16 species, u16 ability);
 
 #endif // GUARD_POKEMON_H

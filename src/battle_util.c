@@ -3699,12 +3699,28 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_PRESSURE:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                switch(BattlerSubOrMainAbility(battler, ABILITY_PRESSURE))
                 {
-                    gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_PRESSURE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                    BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-                    effect++;
+                    case BATTLER_ABILITY:
+                        if (!gSpecialStatuses[battler].switchInAbilityDone)
+                        {
+                            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_PRESSURE;
+                            gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                            BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+                            effect++;
+                        }
+                        break;
+                    case BATTLER_SUBABILITY:
+                        u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, ABILITY_PRESSURE);
+                        if (GetSwitchInSubDone(battler, subAbilityNum) == FALSE)
+                        {
+                            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_PRESSURE;
+                            // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                            SetSwitchInSubDone(battler, subAbilityNum);
+                            BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+                            effect++;
+                        }
+                        break;
                 }
                 break;
             case ABILITY_DARK_AURA:
@@ -3781,6 +3797,9 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             case ABILITY_DROUGHT:
                 if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SUN, TRUE))
                 {
+                    if (i > 0) {
+                        gBattleScripting.abilityPopupOverwrite = ABILITY_DROUGHT;
+                    }
                     BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
                     effect++;
                 }
@@ -3839,14 +3858,39 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_INTIMIDATE:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                switch(BattlerSubOrMainAbility(battler, ABILITY_INTIMIDATE))
                 {
-                    SaveBattlerAttacker(gBattlerAttacker);
-                    gBattlerAttacker = battler;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                    SET_STATCHANGER(STAT_ATK, 1, TRUE);
-                    BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
-                    effect++;
+                    case BATTLER_ABILITY:
+                        if (!gSpecialStatuses[battler].switchInAbilityDone)
+                        {
+                            SaveBattlerAttacker(gBattlerAttacker);
+                            gBattlerAttacker = battler;
+                            gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                            SET_STATCHANGER(STAT_ATK, 1, TRUE);
+                            if (i > 0) {
+                                gBattleScripting.abilityPopupOverwrite = ABILITY_INTIMIDATE;
+                            }
+                            BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            effect++;
+                        }
+                        break;
+                    case BATTLER_SUBABILITY:
+                        u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, ABILITY_INTIMIDATE);
+                        if (GetSwitchInSubDone(battler, subAbilityNum) == FALSE)
+                        {
+                            SaveBattlerAttacker(gBattlerAttacker);
+                            gBattlerAttacker = battler;
+                            // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                            SetSwitchInSubDone(battler, subAbilityNum);
+
+                            SET_STATCHANGER(STAT_ATK, 1, TRUE);
+                            if (i > 0) {
+                                gBattleScripting.abilityPopupOverwrite = ABILITY_INTIMIDATE;
+                            }
+                            BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            effect++;
+                        }
+                        break;
                 }
                 break;
             case ABILITY_SUPERSWEET_SYRUP:
@@ -11535,3 +11579,60 @@ bool8 BattlerHasSubAbility(u32 battler, u32 ability) {
 //     else
 //         return SpeciesHasInnate(gBattleMons[battlerId].species, ability, gBattleMons[battlerId].level, gBattleMons[battlerId].personality, isEnemyMon, isEnemyMon);
 // }
+
+u8 BattlerSubOrMainAbility(u32 battler, u16 ability){
+    if(BattlerHasSubAbility(battler, ability))
+        return BATTLER_SUBABILITY;
+    else if(GetBattlerAbility(battler) == ability)
+        return BATTLER_ABILITY;
+    else
+        return BATTLER_NONE;
+}
+
+void SetSwitchInSubDone(u32 battler, u8 i){
+    switch(i)
+    {
+        case 1:
+            gSpecialStatuses[battler].switchInSubAbility1Done = TRUE;
+            break;
+        case 2:
+            gSpecialStatuses[battler].switchInSubAbility2Done = TRUE;
+            break;
+        case 3:
+            gSpecialStatuses[battler].switchInSubAbility3Done = TRUE;
+            break;
+    }
+    return;
+}
+
+void ClearSwitchInSub(u32 battler, u8 i){
+    switch(i)
+    {
+        case 1:
+            gSpecialStatuses[battler].switchInSubAbility1Done = FALSE;
+            break;
+        case 2:
+            gSpecialStatuses[battler].switchInSubAbility2Done = FALSE;
+            break;
+        case 3:
+            gSpecialStatuses[battler].switchInSubAbility3Done = FALSE;
+            break;
+    }
+}
+
+bool8 GetSwitchInSubDone(u32 battler, u8 i){
+    switch(i)
+    {
+        case 1:
+            if (gSpecialStatuses[battler].switchInSubAbility1Done) return TRUE;
+            break;
+        case 2:
+            if (gSpecialStatuses[battler].switchInSubAbility2Done) return TRUE;
+            break;
+        case 3:
+            if (gSpecialStatuses[battler].switchInSubAbility3Done) return TRUE;
+            break;
+    }
+    return FALSE;
+}
+
