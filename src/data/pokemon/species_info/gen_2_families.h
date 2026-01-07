@@ -71,7 +71,7 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .teachableLearnset = sChikoritaTeachableLearnset,
         .eggMoveLearnset = sChikoritaEggMoveLearnset,
         .evolutions = EVOLUTION({EVO_LEVEL, 16, SPECIES_BAYLEEF}),
-        .subAbilities = { ABILITY_PRESSURE, ABILITY_INTIMIDATE, ABILITY_NONE }
+        .subAbilities = { ABILITY_DROUGHT, ABILITY_INTIMIDATE, ABILITY_NONE }
     },
 
     [SPECIES_BAYLEEF] =

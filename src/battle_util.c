@@ -3795,19 +3795,61 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_DROUGHT:
-                if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SUN, TRUE))
+                switch(BattlerSubOrMainAbility(battler, gLastUsedAbility))
                 {
-                    if (i > 0) {
-                        gBattleScripting.abilityPopupOverwrite = ABILITY_DROUGHT;
-                    }
-                    BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
-                    effect++;
-                }
-                else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
-                {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                    BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
-                    effect++;
+                    case BATTLER_ABILITY:
+                        if (!gSpecialStatuses[battler].switchInAbilityDone)
+                        {
+                            if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SUN, TRUE))
+                            {
+                                if (i > 0) {
+                                    gBattleScripting.abilityPopupOverwrite = ABILITY_DROUGHT;
+                                    // CreateAbilityPopUp(battler, ABILITY_DROUGHT, (IsDoubleBattle()) != 0);
+                                    // gBattlescriptCurrInstr = BattleScript_AbilityPopUp;
+                                    // BattleScriptExecute(gBattlescriptCurrInstr);
+                                }
+                                gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                                // BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
+                                BattleScriptExecute(BattleScript_DroughtActivates);
+                                effect++;
+
+                                // RunBattleScriptCommands();
+                            }
+                            else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
+                            {
+                                gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                                BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
+                                effect++;
+
+                                // RunBattleScriptCommands();
+                            }
+                        }
+                    case BATTLER_SUBABILITY:
+                        u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, gLastUsedAbility);
+                        if (GetSwitchInSubDone(battler, subAbilityNum) == FALSE)
+                        {
+                            if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SUN, TRUE))
+                            {
+                                if (i > 0) {
+                                    gBattleScripting.abilityPopupOverwrite = ABILITY_DROUGHT;
+                                    // CreateAbilityPopUp(battler, ABILITY_DROUGHT, (IsDoubleBattle()) != 0);
+                                }
+                                SetSwitchInSubDone(battler, subAbilityNum);
+                                // BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
+                                BattleScriptExecute(BattleScript_DroughtActivates);
+                                effect++;
+
+                                // RunBattleScriptCommands();
+                            }
+                            else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
+                            {
+                                SetSwitchInSubDone(battler, subAbilityNum);
+                                BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
+                                effect++;
+
+                                // RunBattleScriptCommands();
+                            }
+                        }
                 }
                 break;
             case ABILITY_SNOW_WARNING:
@@ -3869,9 +3911,15 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                             SET_STATCHANGER(STAT_ATK, 1, TRUE);
                             if (i > 0) {
                                 gBattleScripting.abilityPopupOverwrite = ABILITY_INTIMIDATE;
+                                // CreateAbilityPopUp(battler, ABILITY_INTIMIDATE, (IsDoubleBattle()) != 0);
+                                // gBattlescriptCurrInstr = BattleScript_AbilityPopUp;
+                                // BattleScriptExecute(gBattlescriptCurrInstr);
                             }
-                            BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            // BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            BattleScriptExecute(BattleScript_IntimidateActivates);
                             effect++;
+
+                            // RunBattleScriptCommands();
                         }
                         break;
                     case BATTLER_SUBABILITY:
@@ -3886,9 +3934,13 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                             SET_STATCHANGER(STAT_ATK, 1, TRUE);
                             if (i > 0) {
                                 gBattleScripting.abilityPopupOverwrite = ABILITY_INTIMIDATE;
+                                // CreateAbilityPopUp(battler, ABILITY_INTIMIDATE, (IsDoubleBattle()) != 0);
                             }
-                            BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            // BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            BattleScriptExecute(BattleScript_IntimidateActivates);
                             effect++;
+
+                            // RunBattleScriptCommands();
                         }
                         break;
                 }
