@@ -3220,7 +3220,7 @@ static inline u32 SetStartingSideStatus(u32 flag, u32 side, u32 message, u32 ani
     return 0;
 }
 
-u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg)
+u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 moveArg, u8 subAbilityNum)
 {
     u32 effect = 0;
     u32 moveType = 0, move = 0;
@@ -3239,6 +3239,12 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         gLastUsedAbility = special;
     else if (ability)
         gLastUsedAbility = ability;
+    else if (subAbilityNum == 0) {
+        gLastUsedAbility = GetBattlerAbility(battler);
+    }
+    else if (subAbilityNum > 0 && subAbilityNum < 4) {
+        gLastUsedAbility = GetSubAbilityBySpecies(gBattleMons[battler].species, subAbilityNum-1);
+    }
     else
         gLastUsedAbility = GetBattlerAbility(battler);
 
@@ -3459,13 +3465,6 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         break;
     case ABILITYEFFECT_ON_SWITCHIN:
         gBattleScripting.battler = battler;
-        for (int i = 0; i < 4; i++) {
-            if (i == 0) {
-                gLastUsedAbility = GetBattlerAbility(battler);
-            }
-            else if (i > 0) {
-                gLastUsedAbility = GetSubAbilityBySpecies(gBattleMons[battler].species, i-1);
-            }
             switch (gLastUsedAbility)
             {
             case ABILITY_TRACE:
@@ -3809,8 +3808,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                                     // BattleScriptExecute(gBattlescriptCurrInstr);
                                 }
                                 gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                                // BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
-                                BattleScriptExecute(BattleScript_DroughtActivates);
+                                BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
+                                // BattleScriptExecute(BattleScript_DroughtActivates);
                                 effect++;
 
                                 // RunBattleScriptCommands();
@@ -3825,18 +3824,18 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                             }
                         }
                     case BATTLER_SUBABILITY:
-                        u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, gLastUsedAbility);
+                        // u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, gLastUsedAbility);
                         if (GetSwitchInSubDone(battler, subAbilityNum) == FALSE)
                         {
                             if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SUN, TRUE))
                             {
-                                if (i > 0) {
+                                if (subAbilityNum > 0) {
                                     gBattleScripting.abilityPopupOverwrite = ABILITY_DROUGHT;
                                     // CreateAbilityPopUp(battler, ABILITY_DROUGHT, (IsDoubleBattle()) != 0);
                                 }
                                 SetSwitchInSubDone(battler, subAbilityNum);
-                                // BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
-                                BattleScriptExecute(BattleScript_DroughtActivates);
+                                BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
+                                // BattleScriptExecute(BattleScript_DroughtActivates);
                                 effect++;
 
                                 // RunBattleScriptCommands();
@@ -3909,21 +3908,21 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                             gBattlerAttacker = battler;
                             gSpecialStatuses[battler].switchInAbilityDone = TRUE;
                             SET_STATCHANGER(STAT_ATK, 1, TRUE);
-                            if (i > 0) {
+                            if (subAbilityNum > 0) {
                                 gBattleScripting.abilityPopupOverwrite = ABILITY_INTIMIDATE;
                                 // CreateAbilityPopUp(battler, ABILITY_INTIMIDATE, (IsDoubleBattle()) != 0);
                                 // gBattlescriptCurrInstr = BattleScript_AbilityPopUp;
                                 // BattleScriptExecute(gBattlescriptCurrInstr);
                             }
-                            // BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
-                            BattleScriptExecute(BattleScript_IntimidateActivates);
+                            BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            // BattleScriptExecute(BattleScript_IntimidateActivates);
                             effect++;
 
                             // RunBattleScriptCommands();
                         }
                         break;
                     case BATTLER_SUBABILITY:
-                        u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, ABILITY_INTIMIDATE);
+                        // u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, ABILITY_INTIMIDATE);
                         if (GetSwitchInSubDone(battler, subAbilityNum) == FALSE)
                         {
                             SaveBattlerAttacker(gBattlerAttacker);
@@ -3932,12 +3931,12 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                             SetSwitchInSubDone(battler, subAbilityNum);
 
                             SET_STATCHANGER(STAT_ATK, 1, TRUE);
-                            if (i > 0) {
+                            if (subAbilityNum > 0) {
                                 gBattleScripting.abilityPopupOverwrite = ABILITY_INTIMIDATE;
                                 // CreateAbilityPopUp(battler, ABILITY_INTIMIDATE, (IsDoubleBattle()) != 0);
                             }
-                            // BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
-                            BattleScriptExecute(BattleScript_IntimidateActivates);
+                            BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivates);
+                            // BattleScriptExecute(BattleScript_IntimidateActivates);
                             effect++;
 
                             // RunBattleScriptCommands();
@@ -4223,7 +4222,6 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             }
-        }
         break;
     case ABILITYEFFECT_ENDTURN:
         if (IsBattlerAlive(battler))
@@ -8514,10 +8512,10 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageCalculationData *
         modifier = uq4_12_multiply(modifier, (B_TERRAIN_TYPE_BOOST >= GEN_8 ? UQ_4_12(1.3) : UQ_4_12(1.5)));
 
     if (moveType == TYPE_ELECTRIC && ((gFieldStatuses & STATUS_FIELD_MUDSPORT)
-    || AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, 0, ABILITYEFFECT_MUD_SPORT, 0)))
+    || AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, 0, ABILITYEFFECT_MUD_SPORT, 0, 0)))
         modifier = uq4_12_multiply(modifier, UQ_4_12(B_SPORT_DMG_REDUCTION >= GEN_5 ? 0.33 : 0.5));
     if (moveType == TYPE_FIRE && ((gFieldStatuses & STATUS_FIELD_WATERSPORT)
-    || AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, 0, ABILITYEFFECT_WATER_SPORT, 0)))
+    || AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, 0, ABILITYEFFECT_WATER_SPORT, 0, 0)))
         modifier = uq4_12_multiply(modifier, UQ_4_12(B_SPORT_DMG_REDUCTION >= GEN_5 ? 0.33 : 0.5));
 
     // attacker's abilities
