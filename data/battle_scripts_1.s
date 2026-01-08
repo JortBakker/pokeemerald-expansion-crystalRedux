@@ -7602,6 +7602,7 @@ BattleScript_TryIntimidateHoldEffectsRet:
 
 BattleScript_IntimidateActivates::
 	savetarget
+	sethword sABILITY_OVERWRITE, ABILITY_INTIMIDATE
 	call BattleScript_AbilityPopUp
 	setbyte gBattlerTarget, 0
 BattleScript_IntimidateLoop:
@@ -7717,6 +7718,7 @@ BattleScript_SupersweetSyrupContrary_WontIncrease:
 
 BattleScript_DroughtActivates::
 	pause B_WAIT_TIME_SHORT
+	sethword sABILITY_OVERWRITE, ABILITY_DROUGHT
 	call BattleScript_AbilityPopUp
 	printstring STRINGID_PKMNSXINTENSIFIEDSUN
 	waitstate
