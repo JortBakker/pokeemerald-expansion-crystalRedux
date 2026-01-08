@@ -7619,7 +7619,9 @@ BattleScript_IntimidateEffect:
 	jumpifability BS_TARGET, ABILITY_CONTRARY, BattleScript_IntimidateContrary
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_IntimidateWontDecrease
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	sethword sABILITY_OVERWRITE, ABILITY_INTIMIDATE
 	printstring STRINGID_PKMNCUTSATTACKWITH
+	sethword sABILITY_OVERWRITE, 0
 BattleScript_IntimidateEffect_WaitString:
 	waitmessage B_WAIT_TIME_LONG
 	saveattacker
@@ -7720,7 +7722,9 @@ BattleScript_DroughtActivates::
 	pause B_WAIT_TIME_SHORT
 	sethword sABILITY_OVERWRITE, ABILITY_DROUGHT
 	call BattleScript_AbilityPopUp
+	sethword sABILITY_OVERWRITE, ABILITY_DROUGHT
 	printstring STRINGID_PKMNSXINTENSIFIEDSUN
+	sethword sABILITY_OVERWRITE, 0
 	waitstate
 	playanimation BS_BATTLER_0, B_ANIM_SUN_CONTINUES
 	call BattleScript_ActivateWeatherAbilities

@@ -2796,7 +2796,10 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 toCpy = gAbilitiesInfo[sBattlerAbilities[gBattlerTarget]].name;
                 break;
             case B_TXT_SCR_ACTIVE_ABILITY: // scripting active ability
-                toCpy = gAbilitiesInfo[sBattlerAbilities[gBattleScripting.battler]].name;
+                if (gBattleScripting.abilityPopupOverwrite != 0)
+                    toCpy = gAbilitiesInfo[gBattleScripting.abilityPopupOverwrite].name;
+                else
+                    toCpy = gAbilitiesInfo[sBattlerAbilities[gBattleScripting.battler]].name;
                 break;
             case B_TXT_EFF_ABILITY: // effect battler ability
                 toCpy = gAbilitiesInfo[sBattlerAbilities[gEffectBattler]].name;
