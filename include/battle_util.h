@@ -395,5 +395,6 @@ u8 BattlerSubOrMainAbility(u32 battler, u16 ability);
 void SetSwitchInSubDone(u32 battler, u8 i);
 void ClearSwitchInSub(u32 battler, u8 i);
 bool8 GetSwitchInSubDone(u32 battler, u8 i);
+bool8 CheckIfSwitchInAbilityDone(u32 battler, u16 ability);
 
 #endif // GUARD_BATTLE_UTIL_H

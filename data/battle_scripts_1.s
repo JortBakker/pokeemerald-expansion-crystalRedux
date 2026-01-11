@@ -9999,3 +9999,10 @@ BattleScript_ForfeitBattleGaveMoney::
 	waitmessage B_WAIT_TIME_LONG
 	end2
 
+Battlescript_PressureSwitchinMsg::
+	sethword sABILITY_OVERWRITE, ABILITY_PRESSURE
+	call BattleScript_AbilityPopUp
+	sethword sABILITY_OVERWRITE, 0
+	printstring STRINGID_PRESSUREENTERS
+	waitmessage B_WAIT_TIME_LONG
+	end3

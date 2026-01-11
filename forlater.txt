@@ -4,3 +4,14 @@ Look for SECRET_BASES_COUNT  I believe and just drop it to 1
 You could drop it to 0 but you might need to tweak some more code to account for it, and this is the lazy mf's way of freeing up save space
 
 make check -j for testing
+
+### IDEAS ###
+- Chuck gym leader:
+Mega poliwrath -> sumo wrestler -> dohyo dominance -> uses whirlpool on all other battlers on switchin/mega-ev.
+team:
+    1. Forretress (very defensive stealth rock setter and clearer)
+    2. ampharos (lightning rod, elec immunity)/ heliolisk (lightning rod / dry skin)
+    3. Farigiraf (scare user, psychic coverage, trick room setter)
+    4. Corviknight (intimidate user, grass coverage)
+    5. Dewgong (northwind setter, fire coverage)
+    6. Mega Poliwrath (trapper)

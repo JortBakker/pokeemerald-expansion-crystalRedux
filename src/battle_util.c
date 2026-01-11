@@ -3705,7 +3705,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                         {
                             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_PRESSURE;
                             gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                            BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+                            BattleScriptPushCursorAndCallback(Battlescript_PressureSwitchinMsg);
                             effect++;
                         }
                         break;
@@ -3716,7 +3716,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_PRESSURE;
                             // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
                             SetSwitchInSubDone(battler, subAbilityNum);
-                            BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+                            BattleScriptPushCursorAndCallback(Battlescript_PressureSwitchinMsg);
                             effect++;
                         }
                         break;
@@ -3803,50 +3803,36 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                             {
                                 if (i > 0) {
                                     gBattleScripting.abilityPopupOverwrite = ABILITY_DROUGHT;
-                                    // CreateAbilityPopUp(battler, ABILITY_DROUGHT, (IsDoubleBattle()) != 0);
-                                    // gBattlescriptCurrInstr = BattleScript_AbilityPopUp;
-                                    // BattleScriptExecute(gBattlescriptCurrInstr);
                                 }
                                 gSpecialStatuses[battler].switchInAbilityDone = TRUE;
                                 BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
-                                // BattleScriptExecute(BattleScript_DroughtActivates);
                                 effect++;
-
-                                // RunBattleScriptCommands();
                             }
                             else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
                             {
                                 gSpecialStatuses[battler].switchInAbilityDone = TRUE;
                                 BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
                                 effect++;
-
-                                // RunBattleScriptCommands();
                             }
                         }
                     case BATTLER_SUBABILITY:
-                        // u8 subAbilityNum = SpeciesNumSubAbility(gBattleMons[battler].species, gLastUsedAbility);
                         if (GetSwitchInSubDone(battler, subAbilityNum) == FALSE)
                         {
                             if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SUN, TRUE))
                             {
                                 if (subAbilityNum > 0) {
                                     gBattleScripting.abilityPopupOverwrite = ABILITY_DROUGHT;
-                                    // CreateAbilityPopUp(battler, ABILITY_DROUGHT, (IsDoubleBattle()) != 0);
                                 }
                                 SetSwitchInSubDone(battler, subAbilityNum);
                                 BattleScriptPushCursorAndCallback(BattleScript_DroughtActivates);
-                                // BattleScriptExecute(BattleScript_DroughtActivates);
                                 effect++;
 
-                                // RunBattleScriptCommands();
                             }
                             else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
                             {
                                 SetSwitchInSubDone(battler, subAbilityNum);
                                 BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
                                 effect++;
-
-                                // RunBattleScriptCommands();
                             }
                         }
                 }
@@ -11630,7 +11616,8 @@ bool8 BattlerHasSubAbility(u32 battler, u32 ability) {
 //         return SpeciesHasInnate(gBattleMons[battlerId].species, ability, gBattleMons[battlerId].level, gBattleMons[battlerId].personality, isEnemyMon, isEnemyMon);
 // }
 
-u8 BattlerSubOrMainAbility(u32 battler, u16 ability){
+u8 BattlerSubOrMainAbility(u32 battler, u16 ability)
+{
     if(BattlerHasSubAbility(battler, ability))
         return BATTLER_SUBABILITY;
     else if(GetBattlerAbility(battler) == ability)
@@ -11639,7 +11626,8 @@ u8 BattlerSubOrMainAbility(u32 battler, u16 ability){
         return BATTLER_NONE;
 }
 
-void SetSwitchInSubDone(u32 battler, u8 i){
+void SetSwitchInSubDone(u32 battler, u8 i)
+{
     switch(i)
     {
         case 1:
@@ -11655,7 +11643,8 @@ void SetSwitchInSubDone(u32 battler, u8 i){
     return;
 }
 
-void ClearSwitchInSub(u32 battler, u8 i){
+void ClearSwitchInSub(u32 battler, u8 i)
+{
     switch(i)
     {
         case 1:
@@ -11670,7 +11659,8 @@ void ClearSwitchInSub(u32 battler, u8 i){
     }
 }
 
-bool8 GetSwitchInSubDone(u32 battler, u8 i){
+bool8 GetSwitchInSubDone(u32 battler, u8 i)
+{
     switch(i)
     {
         case 1:
@@ -11684,5 +11674,22 @@ bool8 GetSwitchInSubDone(u32 battler, u8 i){
             break;
     }
     return FALSE;
+}
+
+bool8 CheckIfSwitchInAbilityDone(u32 battler, u16 ability)
+{
+    u8 subOrMain = BattlerSubOrMainAbility(battler, ability);
+    if (subOrMain == BATTLER_ABILITY)
+    {
+        if (gSpecialStatuses[battler].switchInAbilityDone) {return TRUE;}
+        else {return FALSE;}
+    }
+    else if (subOrMain == BATTLER_SUBABILITY)
+    {
+        u8 numSub = SpeciesNumSubAbility(battler, ability);
+        return GetSwitchInSubDone(battler, numSub);
+    }
+     // Fallback case, makes sure if ability not part of battler, ability will not trigger
+    else {return TRUE;}
 }
 
