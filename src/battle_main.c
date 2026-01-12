@@ -3847,7 +3847,7 @@ static void TryDoEventsBeforeFirstTurn(void)
             if (TryPrimalReversion(i))
                 return;
             u32 effect = 0;
-            for (int j = 0; j < 4; j++) {
+            for (u8 j = 0; j < 4; j++) {
                 // if (AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, i, 0, 0, 0, j) != 0)
                 effect = effect + AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, i, 0, 0, 0, j);
             }

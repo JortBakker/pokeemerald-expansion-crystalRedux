@@ -15,3 +15,6 @@ team:
     4. Corviknight (intimidate user, grass coverage)
     5. Dewgong (northwind setter, fire coverage)
     6. Mega Poliwrath (trapper)
+
+- abilities:
+    - Steals opps item on switchin

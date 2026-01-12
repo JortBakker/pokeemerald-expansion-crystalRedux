@@ -110,7 +110,8 @@ enum FourthEventBlock
 
 static inline bool32 IsBattlerProtectedByMagicGuard(u32 battler, u32 ability)
 {
-    if (ability != ABILITY_MAGIC_GUARD)
+    // Not tested yet
+    if (!BattlerSubOrMainAbility(battler, ability))
         return FALSE;
 
     RecordAbilityBattle(battler, ability);
@@ -222,17 +223,22 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
     case BATTLE_WEATHER_RAIN:
     case BATTLE_WEATHER_RAIN_PRIMAL:
     case BATTLE_WEATHER_RAIN_DOWNPOUR:
-        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_RAIN_DISH)
+        if (BattlerSubOrMainAbility(battler, ABILITY_DRY_SKIN) || BattlerSubOrMainAbility(battler, ABILITY_RAIN_DISH))
+        // if (ability == ABILITY_DRY_SKIN || ability == ABILITY_RAIN_DISH)
         {
-            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ABILITY_DRY_SKIN, 0, MOVE_NONE, 0))
+                effect = TRUE;
+            else if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ABILITY_RAIN_DISH, 0, MOVE_NONE, 0))
                 effect = TRUE;
         }
         break;
     case BATTLE_WEATHER_SUN:
     case BATTLE_WEATHER_SUN_PRIMAL:
-        if (ability == ABILITY_DRY_SKIN || ability == ABILITY_SOLAR_POWER)
+        if (BattlerSubOrMainAbility(battler, ABILITY_DRY_SKIN) || BattlerSubOrMainAbility(battler, ABILITY_SOLAR_POWER))
         {
-            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ABILITY_DRY_SKIN, 0, MOVE_NONE, 0))
+                effect = TRUE;
+            else if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ABILITY_SOLAR_POWER, 0, MOVE_NONE, 0))
                 effect = TRUE;
         }
         break;
@@ -256,9 +262,9 @@ static bool32 HandleEndTurnWeatherDamage(u32 battler)
         break;
     case BATTLE_WEATHER_HAIL:
     case BATTLE_WEATHER_SNOW:
-        if (ability == ABILITY_ICE_BODY)
+        if (BattlerSubOrMainAbility(battler, ABILITY_ICE_BODY))
         {
-            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ABILITY_ICE_BODY, 0, MOVE_NONE, 0))
                 effect = TRUE;
         }
         else if (currBattleWeather == BATTLE_WEATHER_HAIL)
@@ -507,15 +513,23 @@ static bool32 HandleEndTurnFirstEventBlock(u32 battler)
         break;
     case FIRST_EVENT_BLOCK_ABILITIES:
     {
-        u32 ability = GetBattlerAbility(battler);
-        switch (ability)
-        {
-        case ABILITY_HEALER:
-        case ABILITY_HYDRATION:
-        case ABILITY_SHED_SKIN:
-            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
-                effect = TRUE;
-            break;
+        u32 ability;
+        for (u8 i = 0; i < 4; i++) {
+            if (i == 0) {
+                ability = GetBattlerAbility(battler);
+            }
+            else {
+                ability = GetSubAbilityBySpecies(gBattleMons[battler].species, i-1);
+            }
+            switch (ability)
+            {
+            case ABILITY_HEALER:
+            case ABILITY_HYDRATION:
+            case ABILITY_SHED_SKIN:
+                if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
+                    effect = TRUE;
+                break;
+            }
         }
         gBattleStruct->eventBlockCounter++;
         break;
