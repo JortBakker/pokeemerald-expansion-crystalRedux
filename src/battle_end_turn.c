@@ -1425,21 +1425,29 @@ static bool32 HandleEndTurnThirdEventBlock(u32 battler)
         break;
     case THIRD_EVENT_BLOCK_ABILITIES:
     {
-        u32 ability = GetBattlerAbility(battler);
-        switch (ability)
-        {
-        case ABILITY_TRUANT: // Not fully accurate but it has to be handled somehow. TODO: Find a better way.
-        case ABILITY_CUD_CHEW:
-        case ABILITY_SLOW_START:
-        case ABILITY_BAD_DREAMS:
-        case ABILITY_BALL_FETCH:
-        case ABILITY_HARVEST:
-        case ABILITY_MOODY:
-        case ABILITY_PICKUP:
-        case ABILITY_SPEED_BOOST:
-            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
-                effect = TRUE;
-            break;
+        u32 ability;
+        for (u8 i = 0; i < 4; i++) {
+            if (i == 0) {
+                ability = GetBattlerAbility(battler);
+            }
+            else {
+                ability = GetSubAbilityBySpecies(gBattleMons[battler].species, i-1);
+            }
+            switch (ability)
+            {
+            case ABILITY_TRUANT: // Not fully accurate but it has to be handled somehow. TODO: Find a better way.
+            case ABILITY_CUD_CHEW:
+            case ABILITY_SLOW_START:
+            case ABILITY_BAD_DREAMS:
+            case ABILITY_BALL_FETCH:
+            case ABILITY_HARVEST:
+            case ABILITY_MOODY:
+            case ABILITY_PICKUP:
+            case ABILITY_SPEED_BOOST:
+                if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
+                    effect = TRUE;
+                break;
+            }
         }
         gBattleStruct->eventBlockCounter++;
         break;
@@ -1475,18 +1483,26 @@ static bool32 HandleEndTurnAbilities(u32 battler)
 {
     bool32 effect = FALSE;
 
-    u32 ability = GetBattlerAbility(battler);
+    u32 ability;
 
     gBattleStruct->turnEffectsBattlerId++;
 
-    switch (ability)
-    {
-    case ABILITY_POWER_CONSTRUCT:
-    case ABILITY_SCHOOLING:
-    case ABILITY_SHIELDS_DOWN:
-    case ABILITY_ZEN_MODE:
-        if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
-            effect = TRUE;
+    for (u8 i = 0; i < 4; i++) {
+        if (i == 0) {
+            ability = GetBattlerAbility(battler);
+        }
+        else {
+            ability = GetSubAbilityBySpecies(gBattleMons[battler].species, i-1);
+        }
+        switch (ability)
+        {
+        case ABILITY_POWER_CONSTRUCT:
+        case ABILITY_SCHOOLING:
+        case ABILITY_SHIELDS_DOWN:
+        case ABILITY_ZEN_MODE:
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
+                effect = TRUE;
+        }
     }
 
     return effect;
@@ -1500,10 +1516,9 @@ static bool32 HandleEndTurnFourthEventBlock(u32 battler)
     {
     case FOURTH_EVENT_BLOCK_HUNGER_SWITCH:
     {
-        u32 ability = GetBattlerAbility(battler);
-        if (ability == ABILITY_HUNGER_SWITCH)
+        if (BattlerSubOrMainAbility(battler, ABILITY_HUNGER_SWITCH))
         {
-            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ability, 0, MOVE_NONE, 0))
+            if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, battler, ABILITY_HUNGER_SWITCH, 0, MOVE_NONE, 0))
                 effect = TRUE;
         }
         gBattleStruct->eventBlockCounter++;
