@@ -2933,43 +2933,48 @@ bool32 CanAbilityBlockMove(u32 battlerAtk, u32 battlerDef, u32 abilityAtk, u32 a
     else
         atkPriority = GetChosenMovePriority(battlerAtk, abilityAtk);
 
-    switch (abilityDef)
+    for (u8 i = 0; i < 4; i++)
     {
-    case ABILITY_SOUNDPROOF:
-        if (IsSoundMove(move) && !(GetBattlerMoveTargetType(battlerAtk, move) & MOVE_TARGET_USER))
+        if (i == 0)     abilityDef = abilityDef;
+        else            abilityDef = GetSubAbilityBySpecies(gBattleMons[battlerDef].species, i-1);
+    
+        switch (abilityDef)
         {
-            if (gBattleMons[battlerAtk].status2 & STATUS2_MULTIPLETURNS)
-                gHitMarker |= HITMARKER_NO_PPDEDUCT;
-            battleScriptBlocksMove = BattleScript_SoundproofProtected;
+        case ABILITY_SOUNDPROOF:
+            if (IsSoundMove(move) && !(GetBattlerMoveTargetType(battlerAtk, move) & MOVE_TARGET_USER))
+            {
+                if (gBattleMons[battlerAtk].status2 & STATUS2_MULTIPLETURNS)
+                    gHitMarker |= HITMARKER_NO_PPDEDUCT;
+                battleScriptBlocksMove = BattleScript_SoundproofProtected;
+            }
+            break;
+        case ABILITY_BULLETPROOF:
+            if (IsBallisticMove(move))
+            {
+                if (gBattleMons[battlerAtk].status2 & STATUS2_MULTIPLETURNS)
+                    gHitMarker |= HITMARKER_NO_PPDEDUCT;
+                battleScriptBlocksMove = BattleScript_SoundproofProtected;
+            }
+            break;
+        case ABILITY_DAZZLING:
+        case ABILITY_QUEENLY_MAJESTY:
+        case ABILITY_ARMOR_TAIL:
+            if (atkPriority > 0 && !IsBattlerAlly(battlerAtk, battlerDef))
+            {
+                if (gBattleMons[battlerAtk].status2 & STATUS2_MULTIPLETURNS)
+                    gHitMarker |= HITMARKER_NO_PPDEDUCT;
+                battleScriptBlocksMove = BattleScript_DazzlingProtected;
+            }
+            break;
+        case ABILITY_GOOD_AS_GOLD:
+            if (IsBattleMoveStatus(move))
+            {
+                if (!(GetBattlerMoveTargetType(battlerAtk, move) & (MOVE_TARGET_OPPONENTS_FIELD | MOVE_TARGET_ALL_BATTLERS)))
+                    battleScriptBlocksMove = BattleScript_GoodAsGoldActivates;
+            }
+            break;
         }
-        break;
-    case ABILITY_BULLETPROOF:
-        if (IsBallisticMove(move))
-        {
-            if (gBattleMons[battlerAtk].status2 & STATUS2_MULTIPLETURNS)
-                gHitMarker |= HITMARKER_NO_PPDEDUCT;
-            battleScriptBlocksMove = BattleScript_SoundproofProtected;
-        }
-        break;
-    case ABILITY_DAZZLING:
-    case ABILITY_QUEENLY_MAJESTY:
-    case ABILITY_ARMOR_TAIL:
-        if (atkPriority > 0 && !IsBattlerAlly(battlerAtk, battlerDef))
-        {
-            if (gBattleMons[battlerAtk].status2 & STATUS2_MULTIPLETURNS)
-                gHitMarker |= HITMARKER_NO_PPDEDUCT;
-            battleScriptBlocksMove = BattleScript_DazzlingProtected;
-        }
-        break;
-    case ABILITY_GOOD_AS_GOLD:
-        if (IsBattleMoveStatus(move))
-        {
-            if (!(GetBattlerMoveTargetType(battlerAtk, move) & (MOVE_TARGET_OPPONENTS_FIELD | MOVE_TARGET_ALL_BATTLERS)))
-                battleScriptBlocksMove = BattleScript_GoodAsGoldActivates;
-        }
-        break;
     }
-
     if (atkPriority > 0)
     {
         // Prankster check
@@ -3031,74 +3036,81 @@ bool32 CanAbilityAbsorbMove(u32 battlerAtk, u32 battlerDef, u32 abilityDef, u32 
     const u8 *battleScript = NULL;
     u32 statId = 0;
     u32 statAmount = 1;
+    // u32 proccedAbility = 0;
 
-    switch (abilityDef)
+    for (u8 i = 0; i < 4; i++)
     {
-    default:
-        effect = MOVE_ABSORBED_BY_NO_ABILITY;
-        break;
-    case ABILITY_VOLT_ABSORB:
-        if (moveType == TYPE_ELECTRIC && GetBattlerMoveTargetType(battlerAtk, move) != MOVE_TARGET_ALL_BATTLERS)
-            effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
-        break;
-    case ABILITY_WATER_ABSORB:
-    case ABILITY_DRY_SKIN:
-        if (moveType == TYPE_WATER)
-            effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
-        break;
-    case ABILITY_EARTH_EATER:
-        if (moveType == TYPE_GROUND)
-            effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
-        break;
-    case ABILITY_MOTOR_DRIVE:
-        if (moveType == TYPE_ELECTRIC && GetBattlerMoveTargetType(battlerAtk, move) != MOVE_TARGET_ALL_BATTLERS)
-        {
-            effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
-            statId = STAT_SPEED;
-        }
-        break;
-    case ABILITY_LIGHTNING_ROD:
-        if (B_REDIRECT_ABILITY_IMMUNITY >= GEN_5 && moveType == TYPE_ELECTRIC && GetBattlerMoveTargetType(battlerAtk, move) != MOVE_TARGET_ALL_BATTLERS)
-        {
-            effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
-            statId = STAT_SPATK;
-        }
-        break;
-    case ABILITY_STORM_DRAIN:
-        if (B_REDIRECT_ABILITY_IMMUNITY >= GEN_5 && moveType == TYPE_WATER)
-        {
-            effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
-            statId = STAT_SPATK;
-        }
-        break;
-    case ABILITY_SAP_SIPPER:
-        if (moveType == TYPE_GRASS)
-        {
-            effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
-            statId = STAT_ATK;
-        }
-        break;
-    case ABILITY_WELL_BAKED_BODY:
-        if (moveType == TYPE_FIRE)
-        {
-            effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
-            statAmount = 2;
-            statId = STAT_DEF;
-        }
-        break;
-    case ABILITY_WIND_RIDER:
-        if (IsWindMove(move) && !(GetBattlerMoveTargetType(battlerAtk, move) & MOVE_TARGET_USER))
-        {
-            effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
-            statId = STAT_ATK;
-        }
-        break;
-    case ABILITY_FLASH_FIRE:
-        if (moveType == TYPE_FIRE && (B_FLASH_FIRE_FROZEN >= GEN_5 || !(gBattleMons[battlerDef].status1 & STATUS1_FREEZE)))
-            effect = MOVE_ABSORBED_BY_BOOST_FLASH_FIRE;
-        break;
-    }
+        if (i == 0)     abilityDef = abilityDef;
+        else            abilityDef = GetSubAbilityBySpecies(gBattleMons[battlerDef].species, i-1);
 
+        switch (abilityDef)
+        {
+        default:
+            effect = MOVE_ABSORBED_BY_NO_ABILITY;
+            break;
+        case ABILITY_VOLT_ABSORB:
+            if (moveType == TYPE_ELECTRIC && GetBattlerMoveTargetType(battlerAtk, move) != MOVE_TARGET_ALL_BATTLERS)
+                effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+            break;
+        case ABILITY_WATER_ABSORB:
+        case ABILITY_DRY_SKIN:
+            if (moveType == TYPE_WATER)
+                effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+            break;
+        case ABILITY_EARTH_EATER:
+            if (moveType == TYPE_GROUND)
+                effect = MOVE_ABSORBED_BY_DRAIN_HP_ABILITY;
+            break;
+        case ABILITY_MOTOR_DRIVE:
+            if (moveType == TYPE_ELECTRIC && GetBattlerMoveTargetType(battlerAtk, move) != MOVE_TARGET_ALL_BATTLERS)
+            {
+                effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
+                statId = STAT_SPEED;
+            }
+            break;
+        case ABILITY_LIGHTNING_ROD:
+            if (B_REDIRECT_ABILITY_IMMUNITY >= GEN_5 && moveType == TYPE_ELECTRIC && GetBattlerMoveTargetType(battlerAtk, move) != MOVE_TARGET_ALL_BATTLERS)
+            {
+                effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
+                statId = STAT_SPATK;
+            }
+            break;
+        case ABILITY_STORM_DRAIN:
+            if (B_REDIRECT_ABILITY_IMMUNITY >= GEN_5 && moveType == TYPE_WATER)
+            {
+                effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
+                statId = STAT_SPATK;
+                // proccedAbility = abilityDef;
+            }
+            break;
+        case ABILITY_SAP_SIPPER:
+            if (moveType == TYPE_GRASS)
+            {
+                effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
+                statId = STAT_ATK;
+            }
+            break;
+        case ABILITY_WELL_BAKED_BODY:
+            if (moveType == TYPE_FIRE)
+            {
+                effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
+                statAmount = 2;
+                statId = STAT_DEF;
+            }
+            break;
+        case ABILITY_WIND_RIDER:
+            if (IsWindMove(move) && !(GetBattlerMoveTargetType(battlerAtk, move) & MOVE_TARGET_USER))
+            {
+                effect = MOVE_ABSORBED_BY_STAT_INCREASE_ABILITY;
+                statId = STAT_ATK;
+            }
+            break;
+        case ABILITY_FLASH_FIRE:
+            if (moveType == TYPE_FIRE && (B_FLASH_FIRE_FROZEN >= GEN_5 || !(gBattleMons[battlerDef].status1 & STATUS1_FREEZE)))
+                effect = MOVE_ABSORBED_BY_BOOST_FLASH_FIRE;
+            break;
+        }
+    }
     if (effect == MOVE_ABSORBED_BY_NO_ABILITY || option != ABILITY_RUN_SCRIPT)
         return effect;
 
@@ -7936,6 +7948,8 @@ static bool32 IsBattlerGroundedInverseCheck(u32 battler, enum InverseBattleCheck
         return FALSE;
     if ((gAiLogicData->aiCalcInProgress ? gAiLogicData->abilities[battler] : GetBattlerAbility(battler)) == ABILITY_LEVITATE)
         return FALSE;
+    if (BattlerSubOrMainAbility(battler, ABILITY_LEVITATE))
+        return FALSE;
     if (IS_BATTLER_OF_TYPE(battler, TYPE_FLYING) && (!(checkInverse == INVERSE_BATTLE) || !FlagGet(B_FLAG_INVERSE_BATTLE)))
         return FALSE;
     return TRUE;
@@ -9848,7 +9862,7 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(u32 move, u32 mov
     else if (moveType == TYPE_GROUND && !IsBattlerGroundedInverseCheck(battlerDef, INVERSE_BATTLE, CHECK_IRON_BALL) && !(MoveIgnoresTypeIfFlyingAndUngrounded(move)))
     {
         modifier = UQ_4_12(0.0);
-        if (recordAbilities && defAbility == ABILITY_LEVITATE)
+        if (recordAbilities && BattlerSubOrMainAbility(battlerDef, ABILITY_LEVITATE))
         {
             gBattleStruct->moveResultFlags[battlerDef] |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
             gLastUsedAbility = ABILITY_LEVITATE;

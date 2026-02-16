@@ -24463,6 +24463,9 @@ F_TRAINER_FEMALE |
             .lvl = 5,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+            .moves = {
+                MOVE_WATER_GUN
+            }
             },
         },
     },
