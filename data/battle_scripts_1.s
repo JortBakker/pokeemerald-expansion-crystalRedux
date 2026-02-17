@@ -7326,9 +7326,9 @@ BattleScript_ItemSteal::
 
 BattleScript_DrizzleActivates::
 	pause B_WAIT_TIME_SHORT
-	sethword sABILITY_OVERWRITE, ABILITY_DROUGHT
+	sethword sABILITY_OVERWRITE, ABILITY_DRIZZLE
 	call BattleScript_AbilityPopUp
-	sethword sABILITY_OVERWRITE, ABILITY_DROUGHT
+	sethword sABILITY_OVERWRITE, ABILITY_DRIZZLE
 	printstring STRINGID_PKMNMADEITRAIN
 	sethword sABILITY_OVERWRITE, 0
 	waitstate
