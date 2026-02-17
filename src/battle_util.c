@@ -3819,16 +3819,21 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SAND_STREAM:
-                if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SANDSTORM, TRUE))
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, ABILITY_SAND_STREAM);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
-                    BattleScriptPushCursorAndCallback(BattleScript_SandstreamActivates);
-                    effect++;
-                }
-                else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
-                {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                    BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
-                    effect++;
+                    if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SANDSTORM, TRUE))
+                    {
+                        SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
+                        BattleScriptPushCursorAndCallback(BattleScript_SandstreamActivates);
+                        effect++;
+                    }
+                    else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
+                    {
+                        SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
+                        BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
+                        effect++;
+                    }
                 }
                 break;
             case ABILITY_DROUGHT:
@@ -11748,6 +11753,12 @@ u8 BattlerSubOrMainAbility(u32 battler, u16 ability)
         return BATTLER_NONE;
 }
 
+void SetSwitchInDone(u32 battler, u8 i, u8 typeOfAbility)
+{
+    if (typeOfAbility == BATTLER_ABILITY) gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+    else if (typeOfAbility == BATTLER_SUBABILITY) SetSwitchInSubDone(battler, i);
+}
+
 void SetSwitchInSubDone(u32 battler, u8 i)
 {
     switch(i)
@@ -11796,6 +11807,12 @@ bool8 GetSwitchInSubDone(u32 battler, u8 i)
             break;
     }
     return FALSE;
+}
+
+bool8 GetSwitchInAbilityDone(u32 battler, u8 i, u8 typeOfAbility)
+{
+    if (typeOfAbility == BATTLER_ABILITY) return gSpecialStatuses[battler].switchInAbilityDone;
+    else if (typeOfAbility == BATTLER_SUBABILITY) return GetSwitchInSubDone(battler, i);
 }
 
 bool8 CheckIfSwitchInAbilityDone(u32 battler, u16 ability)
