@@ -9076,7 +9076,7 @@ static inline u32 CalcDefenseStat(struct DamageCalculationData *damageCalcData, 
     if (damageCalcData->isCrit && defStage > DEFAULT_STAT_STAGE)
         defStage = DEFAULT_STAT_STAGE;
     // pokemon with unaware ignore defense stat changes while dealing damage
-    if (atkAbility == ABILITY_UNAWARE)
+    if (atkAbility == ABILITY_UNAWARE || BattlerHasSubAbility(damageCalcData->battlerAtk, ABILITY_UNAWARE))
         defStage = DEFAULT_STAT_STAGE;
     // certain moves also ignore stat changes
     if (MoveIgnoresDefenseEvasionStages(move))
@@ -9089,59 +9089,70 @@ static inline u32 CalcDefenseStat(struct DamageCalculationData *damageCalcData, 
     modifier = UQ_4_12(1.0);
 
     // target's abilities
-    switch (defAbility)
-    {
-    case ABILITY_MARVEL_SCALE:
-        if (gBattleMons[battlerDef].status1 & STATUS1_ANY && usesDefStat)
+    for (u8 i = 0; i < 4; i++) {
+        if (i == 0)     defAbility = defAbility;
+        else            defAbility = GetSubAbilityBySpecies(gBattleMons[battlerDef].species, i-1);
+
+        switch (defAbility)
         {
-            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
-            if (damageCalcData->updateFlags)
-                RecordAbilityBattle(battlerDef, ABILITY_MARVEL_SCALE);
+        case ABILITY_MARVEL_SCALE:
+            if (gBattleMons[battlerDef].status1 & STATUS1_ANY && usesDefStat)
+            {
+                modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+                if (damageCalcData->updateFlags)
+                    RecordAbilityBattle(battlerDef, ABILITY_MARVEL_SCALE);
+            }
+            break;
+        case ABILITY_FUR_COAT:
+            if (usesDefStat)
+            {
+                modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
+                if (damageCalcData->updateFlags)
+                    RecordAbilityBattle(battlerDef, ABILITY_FUR_COAT);
+            }
+            break;
+        case ABILITY_GRASS_PELT:
+            if (gFieldStatuses & STATUS_FIELD_GRASSY_TERRAIN && usesDefStat)
+            {
+                modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+                if (damageCalcData->updateFlags)
+                    RecordAbilityBattle(battlerDef, ABILITY_GRASS_PELT);
+            }
+            break;
+        case ABILITY_FLOWER_GIFT:
+            if (gBattleMons[battlerDef].species == SPECIES_CHERRIM_SUNSHINE && IsBattlerWeatherAffected(battlerDef, B_WEATHER_SUN) && !usesDefStat)
+                modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+            break;
+        case ABILITY_PURIFYING_SALT:
+            if (moveType == TYPE_GHOST)
+                modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
+            break;
         }
-        break;
-    case ABILITY_FUR_COAT:
-        if (usesDefStat)
-        {
-            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
-            if (damageCalcData->updateFlags)
-                RecordAbilityBattle(battlerDef, ABILITY_FUR_COAT);
-        }
-        break;
-    case ABILITY_GRASS_PELT:
-        if (gFieldStatuses & STATUS_FIELD_GRASSY_TERRAIN && usesDefStat)
-        {
-            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
-            if (damageCalcData->updateFlags)
-                RecordAbilityBattle(battlerDef, ABILITY_GRASS_PELT);
-        }
-        break;
-    case ABILITY_FLOWER_GIFT:
-        if (gBattleMons[battlerDef].species == SPECIES_CHERRIM_SUNSHINE && IsBattlerWeatherAffected(battlerDef, B_WEATHER_SUN) && !usesDefStat)
-            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
-        break;
-    case ABILITY_PURIFYING_SALT:
-        if (moveType == TYPE_GHOST)
-            modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
-        break;
     }
 
     // ally's abilities
     if (IsBattlerAlive(BATTLE_PARTNER(battlerDef)))
     {
-        switch (GetBattlerAbility(BATTLE_PARTNER(battlerDef)))
-        {
-        case ABILITY_FLOWER_GIFT:
-            if (gBattleMons[BATTLE_PARTNER(battlerDef)].species == SPECIES_CHERRIM_SUNSHINE && IsBattlerWeatherAffected(BATTLE_PARTNER(battlerDef), B_WEATHER_SUN) && !usesDefStat)
-                modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
-            break;
+        u32 partnerDefAbility;
+        for (u8 i = 0; i < 4; i++) {
+            if (i == 0)     partnerDefAbility = GetBattlerAbility(BATTLE_PARTNER(battlerDef));
+            else            partnerDefAbility = GetSubAbilityBySpecies(gBattleMons[BATTLE_PARTNER(battlerDef)].species, i-1);
+
+            switch (partnerDefAbility)
+            {
+            case ABILITY_FLOWER_GIFT:
+                if (gBattleMons[BATTLE_PARTNER(battlerDef)].species == SPECIES_CHERRIM_SUNSHINE && IsBattlerWeatherAffected(BATTLE_PARTNER(battlerDef), B_WEATHER_SUN) && !usesDefStat)
+                    modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(1.5));
+                break;
+            }
         }
     }
 
     // field abilities
-    if (IsAbilityOnField(ABILITY_SWORD_OF_RUIN) && defAbility != ABILITY_SWORD_OF_RUIN && usesDefStat)
+    if (IsAbilityOnField(ABILITY_SWORD_OF_RUIN) && (defAbility != ABILITY_SWORD_OF_RUIN && !BattlerHasSubAbility(battlerDef, ABILITY_SWORD_OF_RUIN)) && usesDefStat)
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(0.75));
 
-    if (IsAbilityOnField(ABILITY_BEADS_OF_RUIN) && defAbility != ABILITY_BEADS_OF_RUIN && !usesDefStat)
+    if (IsAbilityOnField(ABILITY_BEADS_OF_RUIN) && (defAbility != ABILITY_BEADS_OF_RUIN || !BattlerHasSubAbility(battlerDef, ABILITY_BEADS_OF_RUIN)) && !usesDefStat)
         modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(0.75));
 
     // target's hold effects
@@ -9219,10 +9230,10 @@ static inline uq4_12_t GetSameTypeAttackBonusModifier(struct DamageCalculationDa
     if (moveType == TYPE_MYSTERY)
         return UQ_4_12(1.0);
     else if (gBattleStruct->pledgeMove && IS_BATTLER_OF_TYPE(BATTLE_PARTNER(battlerAtk), moveType))
-        return (abilityAtk == ABILITY_ADAPTABILITY) ? UQ_4_12(2.0) : UQ_4_12(1.5);
+        return (abilityAtk == ABILITY_ADAPTABILITY || BattlerHasSubAbility(battlerAtk, ABILITY_ADAPTABILITY)) ? UQ_4_12(2.0) : UQ_4_12(1.5);
     else if (!IS_BATTLER_OF_TYPE(battlerAtk, moveType) || move == MOVE_STRUGGLE || move == MOVE_NONE)
         return UQ_4_12(1.0);
-    return (abilityAtk == ABILITY_ADAPTABILITY) ? UQ_4_12(2.0) : UQ_4_12(1.5);
+    return (abilityAtk == ABILITY_ADAPTABILITY || BattlerHasSubAbility(battlerAtk, ABILITY_ADAPTABILITY)) ? UQ_4_12(2.0) : UQ_4_12(1.5);
 }
 
 // Utility Umbrella holders take normal damage from what would be rain- and sun-weakened attacks.
@@ -9336,7 +9347,7 @@ static inline uq4_12_t GetScreensModifier(u32 move, u32 battlerAtk, u32 battlerD
     bool32 reflect = (sideStatus & SIDE_STATUS_REFLECT) && IsBattleMovePhysical(move);
     bool32 auroraVeil = sideStatus & SIDE_STATUS_AURORA_VEIL;
 
-    if (isCrit || abilityAtk == ABILITY_INFILTRATOR || gProtectStructs[battlerAtk].confusionSelfDmg)
+    if (isCrit || (abilityAtk == ABILITY_INFILTRATOR || BattlerHasSubAbility(battlerAtk, ABILITY_INFILTRATOR)) || gProtectStructs[battlerAtk].confusionSelfDmg)
         return UQ_4_12(1.0);
     if (reflect || lightScreen || auroraVeil)
         return (IsDoubleBattle()) ? UQ_4_12(0.667) : UQ_4_12(0.5);
@@ -9352,55 +9363,80 @@ static inline uq4_12_t GetCollisionCourseElectroDriftModifier(u32 move, uq4_12_t
 
 static inline uq4_12_t GetAttackerAbilitiesModifier(u32 battlerAtk, uq4_12_t typeEffectivenessModifier, bool32 isCrit, u32 abilityAtk)
 {
-    switch (abilityAtk)
-    {
-    case ABILITY_NEUROFORCE:
-        if (typeEffectivenessModifier >= UQ_4_12(2.0))
-            return UQ_4_12(1.25);
-        break;
-    case ABILITY_SNIPER:
-        if (isCrit)
-            return UQ_4_12(1.5);
-        break;
-    case ABILITY_TINTED_LENS:
-        if (typeEffectivenessModifier <= UQ_4_12(0.5))
-            return UQ_4_12(2.0);
-        break;
+    uq4_12_t modifier = UQ_4_12(1.0);
+
+    for (u8 i = 0; i < 4; i++) {
+        if (i == 0)     abilityAtk = abilityAtk;
+        else            abilityAtk = GetSubAbilityBySpecies(gBattleMons[battlerAtk].species, i-1);
+
+        switch (abilityAtk)
+        {
+        case ABILITY_NEUROFORCE:
+            if (typeEffectivenessModifier >= UQ_4_12(2.0))
+                // multiply and divide by 4096 to keep the q4.12 format
+                modifier = (modifier * UQ_4_12(1.25)) / UQ_4_12(1.0);
+                // return UQ_4_12(1.25);
+            break;
+        case ABILITY_SNIPER:
+            if (isCrit)
+                modifier = (modifier * UQ_4_12(1.5)) / UQ_4_12(1.0);
+                // return UQ_4_12(1.5);
+            break;
+        case ABILITY_TINTED_LENS:
+            if (typeEffectivenessModifier <= UQ_4_12(0.5))
+                modifier = (modifier * UQ_4_12(2.0)) / UQ_4_12(1.0);
+                // return UQ_4_12(2.0);
+            break;
+        }
     }
-    return UQ_4_12(1.0);
+    return modifier;
+    // return UQ_4_12(1.0);
 }
 
 static inline uq4_12_t GetDefenderAbilitiesModifier(u32 move, u32 moveType, u32 battlerAtk, u32 battlerDef, uq4_12_t typeEffectivenessModifier, u32 abilityDef, enum ItemHoldEffect holdEffectAtk)
 {
-    switch (abilityDef)
-    {
-    case ABILITY_MULTISCALE:
-    case ABILITY_SHADOW_SHIELD:
-        if (IsBattlerAtMaxHp(battlerDef))
-            return UQ_4_12(0.5);
-        break;
-    case ABILITY_FILTER:
-    case ABILITY_SOLID_ROCK:
-    case ABILITY_PRISM_ARMOR:
-        if (typeEffectivenessModifier >= UQ_4_12(2.0))
-            return UQ_4_12(0.75);
-        break;
-    case ABILITY_FLUFFY:
-        if (moveType == TYPE_FIRE && !IsMoveMakingContact(battlerAtk, battlerDef, ABILITY_NONE, holdEffectAtk, move))
-            return UQ_4_12(2.0);
-        if (moveType != TYPE_FIRE && IsMoveMakingContact(battlerAtk, battlerDef, ABILITY_NONE, holdEffectAtk, move))
-            return UQ_4_12(0.5);
-        break;
-    case ABILITY_PUNK_ROCK:
-        if (IsSoundMove(move))
-            return UQ_4_12(0.5);
-        break;
-    case ABILITY_ICE_SCALES:
-        if (IsBattleMoveSpecial(move))
-            return UQ_4_12(0.5);
-        break;
+    uq4_12_t modifier = UQ_4_12(1.0);
+    for (u8 i = 0; i < 4; i++) {
+        if (i == 0)     abilityDef = abilityDef;
+        else            abilityDef = GetSubAbilityBySpecies(gBattleMons[battlerDef].species, i-1);
+
+        switch (abilityDef)
+        {
+        case ABILITY_MULTISCALE:
+        case ABILITY_SHADOW_SHIELD:
+            if (IsBattlerAtMaxHp(battlerDef))
+                modifier = (modifier * UQ_4_12(0.5)) / UQ_4_12(1.0);
+                // return UQ_4_12(0.5);
+            break;
+        case ABILITY_FILTER:
+        case ABILITY_SOLID_ROCK:
+        case ABILITY_PRISM_ARMOR:
+            if (typeEffectivenessModifier >= UQ_4_12(2.0))
+                modifier = (modifier * UQ_4_12(0.75)) / UQ_4_12(1.0);
+                // return UQ_4_12(0.75);
+            break;
+        case ABILITY_FLUFFY:
+            if (moveType == TYPE_FIRE && !IsMoveMakingContact(battlerAtk, battlerDef, ABILITY_NONE, holdEffectAtk, move))
+                modifier = (modifier * UQ_4_12(2.0)) / UQ_4_12(1.0);
+                // return UQ_4_12(2.0);
+            if (moveType != TYPE_FIRE && IsMoveMakingContact(battlerAtk, battlerDef, ABILITY_NONE, holdEffectAtk, move))
+                modifier = (modifier * UQ_4_12(0.5)) / UQ_4_12(1.0);
+                // return UQ_4_12(0.5);
+            break;
+        case ABILITY_PUNK_ROCK:
+            if (IsSoundMove(move))
+                modifier = (modifier * UQ_4_12(0.5)) / UQ_4_12(1.0);
+                // return UQ_4_12(0.5);
+            break;
+        case ABILITY_ICE_SCALES:
+            if (IsBattleMoveSpecial(move))
+                modifier = (modifier * UQ_4_12(0.5)) / UQ_4_12(1.0);
+                // return UQ_4_12(0.5);
+            break;
+        }
     }
-    return UQ_4_12(1.0);
+    return modifier;
+    // return UQ_4_12(1.0);
 }
 
 static inline uq4_12_t GetDefenderPartnerAbilitiesModifier(u32 battlerPartnerDef)
@@ -9408,13 +9444,22 @@ static inline uq4_12_t GetDefenderPartnerAbilitiesModifier(u32 battlerPartnerDef
     if (!IsBattlerAlive(battlerPartnerDef))
         return UQ_4_12(1.0);
 
-    switch (GetBattlerAbility(battlerPartnerDef))
-    {
-    case ABILITY_FRIEND_GUARD:
-        return UQ_4_12(0.75);
+    uq4_12_t modifier = UQ_4_12(1.0);
+    u32 abilityDef;
+    for (u8 i = 0; i < 4; i++) {
+        if (i == 0)     abilityDef = GetBattlerAbility(battlerPartnerDef);
+        else            abilityDef = GetSubAbilityBySpecies(gBattleMons[battlerPartnerDef].species, i-1);
+
+        switch (abilityDef)
+        {
+        case ABILITY_FRIEND_GUARD:
+            modifier = (modifier * UQ_4_12(0.75)) / UQ_4_12(1.0);
+            // return UQ_4_12(0.75);
         break;
+        }
     }
-    return UQ_4_12(1.0);
+    return modifier;
+    // return UQ_4_12(1.0);
 }
 
 static inline uq4_12_t GetAttackerItemsModifier(u32 battlerAtk, uq4_12_t typeEffectivenessModifier, enum ItemHoldEffect holdEffectAtk)
