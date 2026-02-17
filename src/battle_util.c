@@ -3780,16 +3780,42 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_DRIZZLE:
-                if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
+                switch(BattlerSubOrMainAbility(battler, ABILITY_DRIZZLE))
                 {
-                    BattleScriptPushCursorAndCallback(BattleScript_DrizzleActivates);
-                    effect++;
-                }
-                else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
-                {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                    BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
-                    effect++;
+                case BATTLER_ABILITY:
+                    if (!gSpecialStatuses[battler].switchInAbilityDone)
+                    {
+                        if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
+                        {
+                            gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                            BattleScriptPushCursorAndCallback(BattleScript_DrizzleActivates);
+                            effect++;
+                        }
+                        else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
+                        {
+                            gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                            BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
+                            effect++;
+                        }
+                    }
+                    break;
+                case BATTLER_SUBABILITY:
+                    if (GetSwitchInSubDone(battler, subAbilityNum) == FALSE)
+                    {
+                        if (TryChangeBattleWeather(battler, BATTLE_WEATHER_RAIN, TRUE))
+                        {
+                            SetSwitchInSubDone(battler, subAbilityNum);
+                            BattleScriptPushCursorAndCallback(BattleScript_DrizzleActivates);
+                            effect++;
+                        }
+                        else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
+                        {
+                            SetSwitchInSubDone(battler, subAbilityNum);
+                            BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
+                            effect++;
+                        }
+                    }
+                    break;
                 }
                 break;
             case ABILITY_SAND_STREAM:
@@ -7846,7 +7872,7 @@ bool32 IsBattlerProtected(u32 battlerAtk, u32 battlerDef, u32 move)
     {
         if (IsZMove(move) || IsMaxMove(move))
             return FALSE; // Z-Moves and Max Moves bypass protection (except Max Guard).
-        if (GetBattlerAbility(battlerAtk) == ABILITY_UNSEEN_FIST
+        if (BattlerSubOrMainAbility(battlerAtk, ABILITY_UNSEEN_FIST)
          && IsMoveMakingContact(battlerAtk, battlerDef, ABILITY_UNSEEN_FIST, GetBattlerHoldEffect(battlerAtk, TRUE), move))
             return FALSE;
     }
@@ -7979,9 +8005,9 @@ u32 GetBattlerWeight(u32 battler)
     u32 ability = GetBattlerAbility(battler);
     enum ItemHoldEffect holdEffect = GetBattlerHoldEffect(battler, TRUE);
 
-    if (ability == ABILITY_HEAVY_METAL)
+    if (ability == ABILITY_HEAVY_METAL || BattlerHasSubAbility(battler, ABILITY_HEAVY_METAL))
         weight *= 2;
-    else if (ability == ABILITY_LIGHT_METAL)
+    else if (ability == ABILITY_LIGHT_METAL || BattlerHasSubAbility(battler, ABILITY_LIGHT_METAL))
         weight /= 2;
 
     if (holdEffect == HOLD_EFFECT_FLOAT_STONE)
@@ -8247,7 +8273,7 @@ static inline u32 CalcMoveBasePower(struct DamageCalculationData *damageCalcData
         break;
     case EFFECT_DOUBLE_POWER_ON_ARG_STATUS:
         // Comatose targets treated as if asleep
-        if ((gBattleMons[battlerDef].status1 | (STATUS1_SLEEP * (abilityDef == ABILITY_COMATOSE))) & GetMoveEffectArg_Status(move)
+        if ((gBattleMons[battlerDef].status1 | (STATUS1_SLEEP * (abilityDef == ABILITY_COMATOSE || BattlerHasSubAbility(battlerDef, ABILITY_COMATOSE)))) & GetMoveEffectArg_Status(move)
          && !((GetMoveAdditionalEffectById(move, 0)->moveEffect == MOVE_EFFECT_REMOVE_STATUS) && DoesSubstituteBlockMove(battlerAtk, battlerDef, move)))
             basePower *= 2;
         break;
@@ -11707,10 +11733,17 @@ bool8 BattlerHasSubAbility(u32 battler, u32 ability) {
 
 u8 BattlerSubOrMainAbility(u32 battler, u16 ability)
 {
-    if(BattlerHasSubAbility(battler, ability))
-        return BATTLER_SUBABILITY;
-    else if(GetBattlerAbility(battler) == ability)
+    // if(BattlerHasSubAbility(battler, ability))
+    //     return BATTLER_SUBABILITY;
+    // else if(GetBattlerAbility(battler) == ability)
+    //     return BATTLER_ABILITY;
+    // else
+    //     return BATTLER_NONE;
+
+    if (GetBattlerAbility(battler) == ability)
         return BATTLER_ABILITY;
+    else if (BattlerHasSubAbility(battler, ability))
+        return BATTLER_SUBABILITY;
     else
         return BATTLER_NONE;
 }

@@ -7326,8 +7326,11 @@ BattleScript_ItemSteal::
 
 BattleScript_DrizzleActivates::
 	pause B_WAIT_TIME_SHORT
+	sethword sABILITY_OVERWRITE, ABILITY_DROUGHT
 	call BattleScript_AbilityPopUp
+	sethword sABILITY_OVERWRITE, ABILITY_DROUGHT
 	printstring STRINGID_PKMNMADEITRAIN
+	sethword sABILITY_OVERWRITE, 0
 	waitstate
 	playanimation BS_BATTLER_0, B_ANIM_RAIN_CONTINUES
 	call BattleScript_ActivateWeatherAbilities

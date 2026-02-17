@@ -3243,6 +3243,9 @@ void SwitchInClearSetData(u32 battler)
 
     // Restore struct member so replacement does not miss timing
     gSpecialStatuses[battler].switchInAbilityDone = FALSE;
+    gSpecialStatuses[battler].switchInSubAbility1Done = FALSE;
+    gSpecialStatuses[battler].switchInSubAbility2Done = FALSE;
+    gSpecialStatuses[battler].switchInSubAbility3Done = FALSE;
 
     // Reset damage to prevent things like red card activating if the switched-in mon is holding it
     gSpecialStatuses[battler].physicalDmg = 0;
