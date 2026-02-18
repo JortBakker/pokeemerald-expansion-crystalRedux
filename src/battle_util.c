@@ -3544,89 +3544,109 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_MOLD_BREAKER:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_MOLDBREAKER;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_TERAVOLT:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_TERAVOLT;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_TURBOBLAZE:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_TURBOBLAZE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_SLOW_START:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gDisableStructs[battler].slowStartTimer = gBattleTurnCounter + 5;
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_SLOWSTART;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_UNNERVE:
-                if (!gSpecialStatuses[battler].switchInAbilityDone && !gDisableStructs[battler].unnerveActivated)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
+                && !gDisableStructs[battler].unnerveActivated)
                 {
                     gEffectBattler = GetOppositeBattler(battler);
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_UNNERVE;
                     gDisableStructs[battler].unnerveActivated = TRUE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_AS_ONE_ICE_RIDER:
             case ABILITY_AS_ONE_SHADOW_RIDER:
-                if (!gSpecialStatuses[battler].switchInAbilityDone && !gDisableStructs[battler].unnerveActivated)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
+                && !gDisableStructs[battler].unnerveActivated)
                 {
                     gEffectBattler = GetOppositeBattler(battler);
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_ASONE;
                     gDisableStructs[battler].unnerveActivated = TRUE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_ActivateAsOne);
                     effect++;
                 }
                 break;
             case ABILITY_CURIOUS_MEDICINE:
-                if (!gSpecialStatuses[battler].switchInAbilityDone && IsDoubleBattle()
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
+                && IsDoubleBattle()
                 && IsBattlerAlive(BATTLE_PARTNER(battler)) && TryResetBattlerStatChanges(BATTLE_PARTNER(battler)))
                 {
                     gEffectBattler = BATTLE_PARTNER(battler);
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_CURIOUS_MEDICINE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_PASTEL_VEIL:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     SaveBattlerTarget(gBattlerTarget);
                     gBattlerTarget = battler;
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_PASTEL_VEIL;
                     BattleScriptPushCursorAndCallback(BattleScript_PastelVeilActivates);
                     effect++;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                 }
                 break;
             case ABILITY_ANTICIPATION:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
                     {
@@ -3648,31 +3668,37 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                     if (effect != 0)
                     {
                         gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_ANTICIPATION;
-                        gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                        // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                        SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                         BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     }
                 }
                 break;
             case ABILITY_FRISK:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_FriskActivates); // Try activate
                     effect++;
                 }
                 return effect; // Note: It returns effect as to not record the ability if Frisk does not activate.
             case ABILITY_FOREWARN:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     ForewarnChooseMove(battler);
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_FOREWARN;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_DOWNLOAD:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     u32 statId, opposingBattler;
                     u32 opposingDef = 0, opposingSpDef = 0;
@@ -3696,7 +3722,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                     else
                         statId = STAT_SPATK;
 
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
 
                     if (CompareStat(battler, statId, MAX_STAT_STAGE, CMP_LESS_THAN))
                     {
@@ -3735,46 +3762,57 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_DARK_AURA:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_DARKAURA;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_FAIRY_AURA:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_FAIRYAURA;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_AURA_BREAK:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_AURABREAK;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_COMATOSE:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_COMATOSE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
                 break;
             case ABILITY_SCREEN_CLEANER:
-                if (!gSpecialStatuses[battler].switchInAbilityDone && TryRemoveScreens(battler))
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
+                && TryRemoveScreens(battler))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_SCREENCLEANER;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                     effect++;
                 }
@@ -3819,7 +3857,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SAND_STREAM:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, ABILITY_SAND_STREAM);
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SANDSTORM, TRUE))
@@ -3893,7 +3931,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 else if (gBattleWeather & B_WEATHER_PRIMAL_ANY && HasWeatherEffect() && !gSpecialStatuses[battler].switchInAbilityDone)
                 {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, BattlerSubOrMainAbility(battler, gLastUsedAbility));
                     BattleScriptPushCursorAndCallback(BattleScript_BlockedByPrimalWeatherEnd3);
                     effect++;
                 }
@@ -3974,12 +4012,14 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SUPERSWEET_SYRUP:
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].supersweetSyrup)
                 {
                     SaveBattlerAttacker(gBattlerAttacker);
                     gBattlerAttacker = battler;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].supersweetSyrup = TRUE;
                     BattleScriptPushCursorAndCallback(BattleScript_SupersweetSyrupActivates);
                     effect++;
@@ -3987,18 +4027,22 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 break;
             case ABILITY_CLOUD_NINE:
             case ABILITY_AIR_LOCK:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_AnnounceAirLockCloudNine);
                     effect++;
                 }
                 break;
             case ABILITY_TERAFORM_ZERO:
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && gBattleMons[battler].species == SPECIES_TERAPAGOS_STELLAR)
                 {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_ActivateTeraformZero);
                     effect++;
                 }
@@ -4016,41 +4060,49 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_INTREPID_SWORD:
-                if (!gSpecialStatuses[battler].switchInAbilityDone && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
+                && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN)
                 && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].intrepidSwordBoost)
                 {
                     gBattleScripting.savedBattler = gBattlerAttacker;
                     gBattlerAttacker = battler;
                     if (GetGenConfig(GEN_INTREPID_SWORD) >= GEN_9)
                         gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].intrepidSwordBoost = TRUE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     SET_STATCHANGER(STAT_ATK, 1, FALSE);
                     BattleScriptPushCursorAndCallback(BattleScript_BattlerAbilityStatRaiseOnSwitchIn);
                     effect++;
                 }
                 break;
             case ABILITY_DAUNTLESS_SHIELD:
-                if (!gSpecialStatuses[battler].switchInAbilityDone && CompareStat(battler, STAT_DEF, MAX_STAT_STAGE, CMP_LESS_THAN)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
+                && CompareStat(battler, STAT_DEF, MAX_STAT_STAGE, CMP_LESS_THAN)
                 && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].dauntlessShieldBoost)
                 {
                     gBattleScripting.savedBattler = gBattlerAttacker;
                     gBattlerAttacker = battler;
                     if (GetGenConfig(GEN_DAUNTLESS_SHIELD) >= GEN_9)
                         gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].dauntlessShieldBoost = TRUE;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     SET_STATCHANGER(STAT_DEF, 1, FALSE);
                     BattleScriptPushCursorAndCallback(BattleScript_BattlerAbilityStatRaiseOnSwitchIn);
                     effect++;
                 }
                 break;
             case ABILITY_WIND_RIDER:
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN)
                 && gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND)
                 {
                     gBattleScripting.savedBattler = gBattlerAttacker;
                     gBattlerAttacker = battler;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     SET_STATCHANGER(STAT_ATK, 1, FALSE);
                     BattleScriptPushCursorAndCallback(BattleScript_BattlerAbilityStatRaiseOnSwitchIn);
                     effect++;
@@ -4078,37 +4130,45 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_VESSEL_OF_RUIN:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_SPATK);
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_RuinAbilityActivates);
                     effect++;
                 }
                 break;
             case ABILITY_SWORD_OF_RUIN:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_DEF);
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_RuinAbilityActivates);
                     effect++;
                 }
                 break;
             case ABILITY_TABLETS_OF_RUIN:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_ATK);
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_RuinAbilityActivates);
                     effect++;
                 }
                 break;
             case ABILITY_BEADS_OF_RUIN:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_SPDEF);
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_RuinAbilityActivates);
                     effect++;
                 }
@@ -4121,9 +4181,11 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SUPREME_OVERLORD:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     gBattleStruct->supremeOverlordCounter[battler] = min(5, GetBattlerSideFaintCounter(battler));
                     if (gBattleStruct->supremeOverlordCounter[battler] > 0)
                     {
@@ -4133,12 +4195,14 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_COSTAR:
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && IsDoubleBattle()
                 && IsBattlerAlive(BATTLE_PARTNER(battler))
                 && CountBattlerStatIncreases(BATTLE_PARTNER(battler), FALSE))
                 {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     for (i = 0; i < NUM_BATTLE_STATS; i++)
                         gBattleMons[battler].statStages[i] = gBattleMons[BATTLE_PARTNER(battler)].statStages[i];
                     gEffectBattler = BATTLE_PARTNER(battler);
@@ -4150,11 +4214,13 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 side = GetBattlerSide(battler);
                 mon = GetBattlerMon(battler);
 
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && GetMonData(mon, MON_DATA_SPECIES) == SPECIES_PALAFIN_HERO
                 && !gBattleStruct->partyState[side][gBattlerPartyIndexes[battler]].transformZeroToHero)
                 {
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     gBattleStruct->partyState[side][gBattlerPartyIndexes[battler]].transformZeroToHero = TRUE;
                     BattleScriptPushCursorAndCallback(BattleScript_ZeroToHeroActivates);
                     effect++;
@@ -4163,14 +4229,16 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             case ABILITY_HOSPITALITY:
                 partner = BATTLE_PARTNER(battler);
 
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && IsDoubleBattle()
                 && !(gStatuses3[partner] & STATUS3_HEAL_BLOCK)
                 && gBattleMons[partner].hp < gBattleMons[partner].maxHP
                 && IsBattlerAlive(partner))
                 {
                     gEffectBattler = partner;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     gBattleStruct->moveDamage[partner] = (GetNonDynamaxMaxHP(partner) / 4) * -1;
                     BattleScriptPushCursorAndCallback(BattleScript_HospitalityActivates);
                     effect++;
@@ -4180,7 +4248,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             case ABILITY_EMBODY_ASPECT_HEARTHFLAME_MASK:
             case ABILITY_EMBODY_ASPECT_WELLSPRING_MASK:
             case ABILITY_EMBODY_ASPECT_CORNERSTONE_MASK:
-                if (!gSpecialStatuses[battler].switchInAbilityDone)
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     u32 stat;
 
@@ -4198,19 +4267,22 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
 
                     gBattleScripting.savedBattler = gBattlerAttacker;
                     gBattlerAttacker = battler;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     SET_STATCHANGER(stat, 1, FALSE);
                     BattleScriptPushCursorAndCallback(BattleScript_BattlerAbilityStatRaiseOnSwitchIn);
                     effect++;
                 }
                 break;
             case ABILITY_TERA_SHIFT:
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && gBattleMons[battler].species == SPECIES_TERAPAGOS_NORMAL
                 && TryBattleFormChange(battler, FORM_CHANGE_BATTLE_SWITCH))
                 {
                     gBattleScripting.abilityPopupOverwrite = gLastUsedAbility = ABILITY_TERA_SHIFT;
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     BattleScriptPushCursorAndCallback(BattleScript_BattlerFormChangeWithStringEnd3);
                     effect++;
                 }
@@ -4228,7 +4300,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 break;
             case ABILITY_COMMANDER:
                 partner = BATTLE_PARTNER(battler);
-                if (!gSpecialStatuses[battler].switchInAbilityDone
+                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && IsBattlerAlive(partner)
                 && IsBattlerAlive(battler)
                 && gBattleStruct->commanderActive[partner] == SPECIES_NONE
@@ -4236,7 +4309,8 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 && GET_BASE_SPECIES_ID(GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES)) == SPECIES_TATSUGIRI)
                 {
                     SaveBattlerAttacker(gBattlerAttacker);
-                    gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
+                    SetSwitchInDone(battler, subAbilityNum, typeOfAbility);
                     gBattlerAttacker = partner;
                     gBattleStruct->battlerState[battler].commandingDondozo = TRUE;
                     gBattleStruct->commanderActive[partner] = gBattleMons[battler].species;
