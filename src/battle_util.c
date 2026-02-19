@@ -3477,6 +3477,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         break;
     case ABILITYEFFECT_ON_SWITCHIN:
         gBattleScripting.battler = battler;
+        u8 typeOfAbility;
             switch (gLastUsedAbility)
             {
             case ABILITY_TRACE:
@@ -3544,7 +3545,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_MOLD_BREAKER:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_MOLDBREAKER;
@@ -3555,7 +3556,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_TERAVOLT:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_TERAVOLT;
@@ -3566,7 +3567,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_TURBOBLAZE:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_TURBOBLAZE;
@@ -3577,7 +3578,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SLOW_START:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gDisableStructs[battler].slowStartTimer = gBattleTurnCounter + 5;
@@ -3589,7 +3590,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_UNNERVE:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && !gDisableStructs[battler].unnerveActivated)
                 {
@@ -3604,7 +3605,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 break;
             case ABILITY_AS_ONE_ICE_RIDER:
             case ABILITY_AS_ONE_SHADOW_RIDER:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && !gDisableStructs[battler].unnerveActivated)
                 {
@@ -3618,7 +3619,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_CURIOUS_MEDICINE:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && IsDoubleBattle()
                 && IsBattlerAlive(BATTLE_PARTNER(battler)) && TryResetBattlerStatChanges(BATTLE_PARTNER(battler)))
@@ -3632,7 +3633,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_PASTEL_VEIL:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     SaveBattlerTarget(gBattlerTarget);
@@ -3645,7 +3646,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_ANTICIPATION:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     for (i = 0; i < MAX_BATTLERS_COUNT; i++)
@@ -3675,7 +3676,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_FRISK:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
@@ -3685,7 +3686,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 return effect; // Note: It returns effect as to not record the ability if Frisk does not activate.
             case ABILITY_FOREWARN:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     ForewarnChooseMove(battler);
@@ -3697,7 +3698,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_DOWNLOAD:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     u32 statId, opposingBattler;
@@ -3762,7 +3763,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_DARK_AURA:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_DARKAURA;
@@ -3773,7 +3774,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_FAIRY_AURA:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_FAIRYAURA;
@@ -3784,7 +3785,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_AURA_BREAK:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_AURABREAK;
@@ -3795,7 +3796,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_COMATOSE:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_COMATOSE;
@@ -3806,7 +3807,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SCREEN_CLEANER:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && TryRemoveScreens(battler))
                 {
@@ -3857,7 +3858,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SAND_STREAM:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     if (TryChangeBattleWeather(battler, BATTLE_WEATHER_SANDSTORM, TRUE))
@@ -4012,7 +4013,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SUPERSWEET_SYRUP:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].supersweetSyrup)
                 {
@@ -4027,7 +4028,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 break;
             case ABILITY_CLOUD_NINE:
             case ABILITY_AIR_LOCK:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
@@ -4037,7 +4038,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_TERAFORM_ZERO:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && gBattleMons[battler].species == SPECIES_TERAPAGOS_STELLAR)
                 {
@@ -4060,7 +4061,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_INTREPID_SWORD:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN)
                 && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].intrepidSwordBoost)
@@ -4077,7 +4078,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_DAUNTLESS_SHIELD:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && CompareStat(battler, STAT_DEF, MAX_STAT_STAGE, CMP_LESS_THAN)
                 && !gBattleStruct->partyState[GetBattlerSide(battler)][gBattlerPartyIndexes[battler]].dauntlessShieldBoost)
@@ -4094,7 +4095,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_WIND_RIDER:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && CompareStat(battler, STAT_ATK, MAX_STAT_STAGE, CMP_LESS_THAN)
                 && gSideStatuses[GetBattlerSide(battler)] & SIDE_STATUS_TAILWIND)
@@ -4130,7 +4131,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_VESSEL_OF_RUIN:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_SPATK);
@@ -4141,7 +4142,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SWORD_OF_RUIN:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_DEF);
@@ -4152,7 +4153,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_TABLETS_OF_RUIN:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_ATK);
@@ -4163,7 +4164,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_BEADS_OF_RUIN:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_SPDEF);
@@ -4181,7 +4182,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SUPREME_OVERLORD:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     // gSpecialStatuses[battler].switchInAbilityDone = TRUE;
@@ -4195,7 +4196,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_COSTAR:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && IsDoubleBattle()
                 && IsBattlerAlive(BATTLE_PARTNER(battler))
@@ -4214,7 +4215,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 side = GetBattlerSide(battler);
                 mon = GetBattlerMon(battler);
 
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && GetMonData(mon, MON_DATA_SPECIES) == SPECIES_PALAFIN_HERO
                 && !gBattleStruct->partyState[side][gBattlerPartyIndexes[battler]].transformZeroToHero)
@@ -4229,7 +4230,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             case ABILITY_HOSPITALITY:
                 partner = BATTLE_PARTNER(battler);
 
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && IsDoubleBattle()
                 && !(gStatuses3[partner] & STATUS3_HEAL_BLOCK)
@@ -4248,7 +4249,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             case ABILITY_EMBODY_ASPECT_HEARTHFLAME_MASK:
             case ABILITY_EMBODY_ASPECT_WELLSPRING_MASK:
             case ABILITY_EMBODY_ASPECT_CORNERSTONE_MASK:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility))
                 {
                     u32 stat;
@@ -4275,7 +4276,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_TERA_SHIFT:
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && gBattleMons[battler].species == SPECIES_TERAPAGOS_NORMAL
                 && TryBattleFormChange(battler, FORM_CHANGE_BATTLE_SWITCH))
@@ -4300,7 +4301,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 break;
             case ABILITY_COMMANDER:
                 partner = BATTLE_PARTNER(battler);
-                u8 typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
+                typeOfAbility = BattlerSubOrMainAbility(battler, gLastUsedAbility);
                 if (!GetSwitchInAbilityDone(battler, subAbilityNum, typeOfAbility)
                 && IsBattlerAlive(partner)
                 && IsBattlerAlive(battler)
@@ -11887,6 +11888,7 @@ bool8 GetSwitchInAbilityDone(u32 battler, u8 i, u8 typeOfAbility)
 {
     if (typeOfAbility == BATTLER_ABILITY) return gSpecialStatuses[battler].switchInAbilityDone;
     else if (typeOfAbility == BATTLER_SUBABILITY) return GetSwitchInSubDone(battler, i);
+    return FALSE;
 }
 
 bool8 CheckIfSwitchInAbilityDone(u32 battler, u16 ability)
