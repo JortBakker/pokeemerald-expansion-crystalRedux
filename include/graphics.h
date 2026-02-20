@@ -1976,6 +1976,8 @@ extern const u32 gSummaryPage_InfoEgg_Tilemap[];
 extern const u32 gSummaryPage_Skills_Tilemap[];
 extern const u32 gSummaryPage_BattleMoves_Tilemap[];
 extern const u32 gSummaryPage_ContestMoves_Tilemap[];
+extern const u32 gSummaryPage_Abilities_Tilemap[]; // added
+
 extern const u16 gPPTextPalette[];
 extern const u16 gMoveTypes_Pal[];
 
