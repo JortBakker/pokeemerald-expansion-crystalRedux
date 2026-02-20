@@ -52,6 +52,9 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
+// New includes
+#include "constants/abilities.h"
+
 // Screen titles (upper left)
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TITLE 0
 #define PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE 1
@@ -105,6 +108,20 @@
 
 #define MOVE_SELECTOR_SPRITES_COUNT 10
 #define TYPE_ICON_SPRITE_COUNT (MAX_MON_MOVES + 1)
+
+// new defines
+// Text Windows
+#define PSS_LABEL_PANE_LEFT_TOP                     0
+#define PSS_LABEL_PANE_LEFT_BOTTOM                  (PSS_LABEL_PANE_LEFT_TOP + 1)
+#define PSS_LABEL_PANE_LEFT_MOVE                    (PSS_LABEL_PANE_LEFT_BOTTOM + 1)
+#define PSS_LABEL_PANE_RIGHT                        (PSS_LABEL_PANE_LEFT_MOVE + 1)
+#define PSS_LABEL_PANE_RIGHT_HP                     (PSS_LABEL_PANE_RIGHT + 1)
+#define PSS_LABEL_PANE_RIGHT_SMALL                  (PSS_LABEL_PANE_RIGHT_HP + 1)
+#define PSS_LABEL_PANE_RIGHT_BOTTOM                 (PSS_LABEL_PANE_RIGHT_SMALL + 1)
+#define PSS_LABEL_PANE_TITLE                        (PSS_LABEL_PANE_RIGHT_BOTTOM + 1)
+
+#define PSS_LABEL_PANE_WINDOW_END                        (PSS_LABEL_PANE_TITLE + 1)
+
 // for the spriteIds field in PokemonSummaryScreenData
 enum
 {
@@ -334,6 +351,9 @@ static const u8 *GetLetterGrade(u32 stat);
 static u8 AddWindowFromTemplateList(const struct WindowTemplate *template, u8 templateId);
 static u8 IncrementSkillsStatsMode(u8 mode);
 static void ClearStatLabel(u32 length, u32 statsCoordX, u32 statsCoordY);
+static void PrintAbilityAndInnates(void);
+static void PrintMonPokemonAbilityAndInnates(void);
+static void PrintSmallTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId);
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -731,6 +751,7 @@ static void (*const sTextPrinterFunctions[])(void) =
     [PSS_PAGE_INFO] = PrintInfoPageText,
     [PSS_PAGE_SKILLS] = PrintSkillsPageText,
     [PSS_PAGE_BATTLE_MOVES] = PrintBattleMoves,
+    // [PSS_PAGE_ABILITY] = PrintInfoPageText,
     [PSS_PAGE_CONTEST_MOVES] = PrintContestMoves
 };
 
@@ -739,6 +760,7 @@ static void (*const sTextPrinterTasks[])(u8 taskId) =
     [PSS_PAGE_INFO] = Task_PrintInfoPage,
     [PSS_PAGE_SKILLS] = Task_PrintSkillsPage,
     [PSS_PAGE_BATTLE_MOVES] = Task_PrintBattleMoves,
+    // [PSS_PAGE_ABILITY] = Task_PrintInfoPage,
     [PSS_PAGE_CONTEST_MOVES] = Task_PrintContestMoves
 };
 
@@ -748,6 +770,12 @@ static const u8 sStatsLeftColumnLayout[] = _("{DYNAMIC 0}/{DYNAMIC 1}\n{DYNAMIC 
 static const u8 sStatsLeftIVEVColumnLayout[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
 static const u8 sStatsRightColumnLayout[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
 static const u8 sMovesPPLayout[] = _("{PP}{DYNAMIC 0}/{DYNAMIC 1}");
+
+// added
+const u8 sText_MainAbility[] = _("Ability");
+const u8 sText_SubA1[] = _("Sub 1");
+const u8 sText_SubA2[] = _("Sub 2");
+const u8 sText_SubA3[] = _("Sub 3");
 
 #define TAG_MOVE_SELECTOR 30000
 #define TAG_MON_STATUS 30001
@@ -1435,7 +1463,8 @@ static bool8 DecompressGraphics(void)
         sMonSummaryScreen->switchCounter++;
         break;
     case 5:
-        LZDecompressWram(gSummaryPage_ContestMoves_Tilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][1]);
+        // LZDecompressWram(gSummaryPage_ContestMoves_Tilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][1]);
+        LZDecompressWram(gSummaryPage_Abilities_Tilemap, sMonSummaryScreen->bgTilemapBuffers[PSS_PAGE_CONTEST_MOVES][1]);
         sMonSummaryScreen->switchCounter++;
         break;
     case 6:
@@ -1722,6 +1751,7 @@ static void Task_HandleInput(u8 taskId)
                 }
                 else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES
                          || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
+                // else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
                 {
                     PlaySE(SE_SELECT);
                     SwitchToMoveSelection(taskId);
@@ -3288,6 +3318,13 @@ static void PutPageWindowTilemaps(u8 page)
                 PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_RELEARN);
         }
         break;
+    // case PSS_PAGE_ABILITY:
+    //     PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE);
+    //     PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_UTILITY);
+    //     if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE)
+    //         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_RENTAL);
+    //     PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TYPE);
+    //     break;
     }
 
     for (i = 0; i < ARRAY_COUNT(sMonSummaryScreen->windowIds); i++)
@@ -4041,16 +4078,17 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
 
 static void PrintContestMoves(void)
 {
-    PrintMoveNameAndPP(0);
-    PrintMoveNameAndPP(1);
-    PrintMoveNameAndPP(2);
-    PrintMoveNameAndPP(3);
+    PrintMonAbilityName();
+    // PrintMoveNameAndPP(0);
+    // PrintMoveNameAndPP(1);
+    // PrintMoveNameAndPP(2);
+    // PrintMoveNameAndPP(3);
 
-    if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
-    {
-        PrintNewMoveDetailsOrCancelText();
-        PrintContestMoveDescription(sMonSummaryScreen->firstMoveIndex);
-    }
+    // if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
+    // {
+    //     PrintNewMoveDetailsOrCancelText();
+    //     PrintContestMoveDescription(sMonSummaryScreen->firstMoveIndex);
+    // }
 }
 
 static void Task_PrintContestMoves(u8 taskId)
@@ -4059,34 +4097,45 @@ static void Task_PrintContestMoves(u8 taskId)
 
     switch (data[0])
     {
-    case 1:
-        PrintMoveNameAndPP(0);
-        break;
-    case 2:
-        PrintMoveNameAndPP(1);
-        break;
-    case 3:
-        PrintMoveNameAndPP(2);
-        break;
-    case 4:
-        PrintMoveNameAndPP(3);
-        break;
-    case 5:
-        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
-            PrintNewMoveDetailsOrCancelText();
-        break;
-    case 6:
-        if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
-        {
-            if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
-                PrintContestMoveDescription(sMonSummaryScreen->firstMoveIndex);
-        }
-        break;
-    case 7:
-        DestroyTask(taskId);
-        return;
+        case 1:
+            PrintMonAbilityName();
+            break;
+        case 2:
+            DestroyTask(taskId);
+            return;
     }
     data[0]++;
+
+    // switch (data[0])
+    // {
+    // case 1:
+    //     PrintMoveNameAndPP(0);
+    //     break;
+    // case 2:
+    //     PrintMoveNameAndPP(1);
+    //     break;
+    // case 3:
+    //     PrintMoveNameAndPP(2);
+    //     break;
+    // case 4:
+    //     PrintMoveNameAndPP(3);
+    //     break;
+    // case 5:
+    //     if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
+    //         PrintNewMoveDetailsOrCancelText();
+    //     break;
+    // case 6:
+    //     if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
+    //     {
+    //         if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
+    //             PrintContestMoveDescription(sMonSummaryScreen->firstMoveIndex);
+    //     }
+    //     break;
+    // case 7:
+    //     DestroyTask(taskId);
+    //     return;
+    // }
+    // data[0]++;
 }
 
 static void PrintContestMoveDescription(u8 moveSlot)
@@ -4234,8 +4283,8 @@ static void SetTypeIcons(void)
         SetNewMoveTypeIcon();
         break;
     case PSS_PAGE_CONTEST_MOVES:
-        SetContestMoveTypeIcons();
-        SetNewMoveTypeIcon();
+        // SetContestMoveTypeIcons();
+        // SetNewMoveTypeIcon();
         break;
     }
 }
@@ -4763,4 +4812,115 @@ static void CB2_PssChangePokemonNickname(void)
     DoNamingScreen(NAMING_SCREEN_NICKNAME, gStringVar2, GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES, NULL),
                    GetMonGender(&gPlayerParty[gSpecialVar_0x8004]), GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_PERSONALITY, NULL),
                    CB2_ReturnToSummaryScreenFromNamingScreen);
+}
+
+static void PrintAbilityAndInnates(void)
+{
+    // FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
+
+    if (sMonSummaryScreen->summary.isEgg)
+        PrintEggMemo();
+    else
+        PrintMonPokemonAbilityAndInnates();
+
+    // ScheduleBgCopyTilemapToVram(0);
+    // PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+}
+
+static void PrintMonPokemonAbilityAndInnates(void)
+{
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+	u16 species = sum->species;
+    u32 personality = sum->pid;
+	u8 level = sum->level;
+    const u8 *text;
+	u8 x, y, i;
+    // bool8 isEnemyMon = VarGet(VAR_BATTLE_CONTROLLER_PLAYER_F) == 2; //checks if you are looking into the summary screen for the enemy
+    u16 innate1 = gSpeciesInfo[species].subAbilities[0];
+    u16 innate2 = gSpeciesInfo[species].subAbilities[1];
+    u16 innate3 = gSpeciesInfo[species].subAbilities[2];
+    u16 ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ABILITY_NUM));
+    bool8 testInnateLock = FALSE;
+
+    // DynamicPlaceholderTextUtil_Reset();
+    // DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoNatureTextColor);
+    // DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sMemoMiscTextColor);
+    // BufferCharacteristicString();
+	
+	x = 60;
+	y = 4;
+
+    // if(!isEnemyMon){ //Enemy Mons have disabled randomized innates/abilies 
+    //     innate1 = RandomizeInnate(gSpeciesInfo[species].subAbilities[0], species, personality);
+    //     innate2 = RandomizeInnate(gSpeciesInfo[species].subAbilities[1], species, personality);
+    //     innate3 = RandomizeInnate(gSpeciesInfo[species].subAbilities[2], species, personality);
+    //     ability = RandomizeAbility(GetAbilityBySpecies(sMonSummaryScreen->summary.species, GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ABILITY_NUM)), sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.pid);
+    // }
+	
+	// if(ModifyMode)
+	// 	BlitBitmapToWindow(PSS_LABEL_PANE_RIGHT, sSummaryAbilitySlider, (x-8), 8, 96, 8);
+
+	// Main Ability
+	DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sText_MainAbility);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0, y, 4, 1);
+	// Name ---------------------------------------------------------------------------------------------------
+    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[ability].name);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, x, y, 0, 1);
+	// Description ---------------------------------------------------------------------------------------------------
+	DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[ability].description);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0,  (y + 12), 0, 0);
+
+	// Innates
+	for(i = 0; i < 3; i++){
+        switch(i){
+            case 0:
+                if(innate1 != ABILITY_NONE){
+                    y += 32;
+                    //Title
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sText_SubA1);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0, y, 4, 1);
+                    // Name ---------------------------------------------------------------------------------------------------
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[innate1].name);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, x, y, 0, 1);
+                    // Description ---------------------------------------------------------------------------------------------------
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[innate1].description);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0,  (y + 12), 0, 0);
+                }
+            break;
+            case 1:
+                if(innate2 != ABILITY_NONE){
+                    y += 32;
+                    //Title
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sText_SubA1);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0, y, 4, 1);
+                    // Name ---------------------------------------------------------------------------------------------------
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[innate2].name);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, x, y, 0, 1);
+                    // Description ---------------------------------------------------------------------------------------------------
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[innate2].description);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0,  (y + 12), 0, 0);
+                }
+            break;
+            case 2:
+                if(innate3 != ABILITY_NONE){
+                    y += 32;
+                    //Title
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sText_SubA1);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0, y, 4, 1);
+                    // Name ---------------------------------------------------------------------------------------------------
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[innate3].name);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, x, y, 0, 1);
+                    // Description ---------------------------------------------------------------------------------------------------
+                    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gAbilitiesInfo[innate3].description);
+                    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY), gStringVar4, 0,  (y + 12), 0, 0);
+                }
+            break;
+        }
+	}
+}
+
+static void PrintSmallTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
+{
+    AddTextPrinterParameterized4(windowId, 8, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
 }

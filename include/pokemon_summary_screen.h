@@ -37,6 +37,7 @@ enum PokemonSummaryScreenPage
     PSS_PAGE_INFO,
     PSS_PAGE_SKILLS,
     PSS_PAGE_BATTLE_MOVES,
+    // PSS_PAGE_ABILITY,
     PSS_PAGE_CONTEST_MOVES,
     PSS_PAGE_COUNT,
 };
