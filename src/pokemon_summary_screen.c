@@ -106,6 +106,12 @@
 #define PSS_DATA_WINDOW_MOVE_PP 1
 #define PSS_DATA_WINDOW_MOVE_DESCRIPTION 2
 
+// Dynamic fields for the abilities page
+#define PSS_DATA_WINDOW_INFO_ABILITY_1 0
+#define PSS_DATA_WINDOW_INFO_ABILITY_2 1
+#define PSS_DATA_WINDOW_INFO_ABILITY_3 2
+#define PSS_DATA_WINDOW_INFO_ABILITY_4 3
+
 #define MOVE_SELECTOR_SPRITES_COUNT 10
 #define TYPE_ICON_SPRITE_COUNT (MAX_MON_MOVES + 1)
 
@@ -354,6 +360,10 @@ static void ClearStatLabel(u32 length, u32 statsCoordX, u32 statsCoordY);
 static void PrintAbilityAndInnates(void);
 static void PrintMonPokemonAbilityAndInnates(void);
 static void PrintSmallTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId);
+static void PrintAbility1(void);
+static void PrintAbility2(void);
+static void PrintAbility3(void);
+static void PrintAbility4(void);
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -724,6 +734,47 @@ static const struct WindowTemplate sPageMovesTemplate[] = // This is used for bo
         .baseBlock = 617,
     },
 };
+
+static const struct WindowTemplate sPageAbilitesTemplate[] =
+{
+    [PSS_DATA_WINDOW_INFO_ABILITY_1] = {
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 2,
+        .width = 18,
+        .height = 4,
+        .paletteNum = 6,
+        .baseBlock = 467,
+    },
+    [PSS_DATA_WINDOW_INFO_ABILITY_2] = {
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 6,
+        .width = 18,
+        .height = 4,
+        .paletteNum = 6,
+        .baseBlock = 539,
+    },
+    [PSS_DATA_WINDOW_INFO_ABILITY_3] = {
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 10,
+        .width = 18,
+        .height = 4,
+        .paletteNum = 6,
+        .baseBlock = 611,
+    },
+    [PSS_DATA_WINDOW_INFO_ABILITY_4] = {
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 14,
+        .width = 18,
+        .height = 4,
+        .paletteNum = 6,
+        .baseBlock = 683,
+    }
+};
+
 static const u8 sTextColors[][3] =
 {
     {0, 1, 2},
@@ -3123,6 +3174,7 @@ static void PrintTextOnWindowWithFont(u8 windowId, const u8 *string, u8 x, u8 y,
 static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
 {
     PrintTextOnWindowWithFont(windowId, string, x, y, lineSpacing, colorId, FONT_NORMAL);
+    
 }
 
 static void PrintTextOnWindowToFitPx(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId, u32 width)
@@ -4078,7 +4130,11 @@ static void PrintMovePowerAndAccuracy(u16 moveIndex)
 
 static void PrintContestMoves(void)
 {
-    PrintMonAbilityName();
+    // PrintMonAbilityName();
+    PrintAbility1();
+    PrintAbility2();
+    PrintAbility3();
+    PrintAbility4();
     // PrintMoveNameAndPP(0);
     // PrintMoveNameAndPP(1);
     // PrintMoveNameAndPP(2);
@@ -4098,9 +4154,18 @@ static void Task_PrintContestMoves(u8 taskId)
     switch (data[0])
     {
         case 1:
-            PrintMonAbilityName();
+            PrintAbility1();
             break;
         case 2:
+            PrintAbility2();
+            break;
+        case 3:
+            PrintAbility3();
+            break;
+        case 4:
+            PrintAbility4();
+            break;
+        case 5:
             DestroyTask(taskId);
             return;
     }
@@ -4922,5 +4987,32 @@ static void PrintMonPokemonAbilityAndInnates(void)
 
 static void PrintSmallTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
 {
-    AddTextPrinterParameterized4(windowId, 8, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
+
+    // AddTextPrinterParameterized4(windowId, 8, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
+    PrintTextOnWindowWithFont(windowId, string, x, y, lineSpacing, colorId, FONT_SMALL);
+}
+
+static void PrintAbility1(void)
+{
+    u16 ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum);
+    // u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[0];
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_1), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
+}
+
+static void PrintAbility2(void)
+{
+    u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[0];
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_2), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
+}
+
+static void PrintAbility3(void)
+{
+    u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[1];
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_3), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
+}
+
+static void PrintAbility4(void)
+{
+    u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[2];
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_4), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
 }
