@@ -360,10 +360,15 @@ static void ClearStatLabel(u32 length, u32 statsCoordX, u32 statsCoordY);
 static void PrintAbilityAndInnates(void);
 static void PrintMonPokemonAbilityAndInnates(void);
 static void PrintSmallTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId);
+static void PrintSmallCapitalTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId);
 static void PrintAbility1(void);
 static void PrintAbility2(void);
 static void PrintAbility3(void);
 static void PrintAbility4(void);
+static void PrintAbilityDesc1(void);
+static void PrintAbilityDesc2(void);
+static void PrintAbilityDesc3(void);
+static void PrintAbilityDesc4(void);
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -1800,9 +1805,7 @@ static void Task_HandleInput(u8 taskId)
                     PlaySE(SE_SELECT);
                     BeginCloseSummaryScreen(taskId);
                 }
-                else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES
-                         || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
-                // else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
+                else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
                 {
                     PlaySE(SE_SELECT);
                     SwitchToMoveSelection(taskId);
@@ -3288,7 +3291,7 @@ static void PrintPageNamesAndStats(void)
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE, gText_PkmnInfo, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, gText_PkmnSkills, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, gText_BattleMoves, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, gText_ContestMoves, 2, 1, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, gText_Abilities, 2, 1, 0, 1);
 
     ShowUtilityPrompt(SUMMARY_MODE_NORMAL);
 
@@ -4135,6 +4138,10 @@ static void PrintContestMoves(void)
     PrintAbility2();
     PrintAbility3();
     PrintAbility4();
+    PrintAbilityDesc1();
+    PrintAbilityDesc2();
+    PrintAbilityDesc3();
+    PrintAbilityDesc4();
     // PrintMoveNameAndPP(0);
     // PrintMoveNameAndPP(1);
     // PrintMoveNameAndPP(2);
@@ -4166,6 +4173,18 @@ static void Task_PrintContestMoves(u8 taskId)
             PrintAbility4();
             break;
         case 5:
+            PrintAbilityDesc1();
+            break;
+        case 6:
+            PrintAbilityDesc2();
+            break;
+        case 7:
+            PrintAbilityDesc3();
+            break;
+        case 8:
+            PrintAbilityDesc4();
+            break;
+        case 9:
             DestroyTask(taskId);
             return;
     }
@@ -4992,27 +5011,71 @@ static void PrintSmallTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8
     PrintTextOnWindowWithFont(windowId, string, x, y, lineSpacing, colorId, FONT_SMALL);
 }
 
+static void PrintSmallCapitalTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
+{
+
+    // AddTextPrinterParameterized4(windowId, 8, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
+    u8 buffer[17];  // Same size as input
+    u8 i;
+    
+    // Copy and convert until we hit null terminator or max length
+    for (i = 0; i < 17; i++) {
+        u8 c = string[i];
+        if (c == '\0') {
+            break;  // Stop at null terminator
+        }
+        buffer[i] = (c >= 'a' && c <= 'z') ? c - 26 : c;
+    }
+    buffer[i] = '\0';  // Ensure null termination
+    
+    PrintTextOnWindowWithFont(windowId, buffer, x, y, lineSpacing, colorId, FONT_SMALL);
+}
+
 static void PrintAbility1(void)
 {
     u16 ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum);
     // u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[0];
-    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_1), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_1), gAbilitiesInfo[ability].name, 9, 4, 0, 1);
 }
 
 static void PrintAbility2(void)
 {
     u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[0];
-    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_2), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_2), gAbilitiesInfo[ability].name, 9, 4, 0, 1);
 }
 
 static void PrintAbility3(void)
 {
     u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[1];
-    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_3), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_3), gAbilitiesInfo[ability].name, 9, 4, 0, 1);
 }
 
 static void PrintAbility4(void)
 {
     u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[2];
-    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_4), gAbilitiesInfo[ability].name, 6, 4, 0, 1);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_4), gAbilitiesInfo[ability].name, 9, 4, 0, 1);
+}
+
+static void PrintAbilityDesc1(void)
+{
+    u16 ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum);
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_1), gAbilitiesInfo[ability].description, 0, 13, 0, 0);
+}
+
+static void PrintAbilityDesc2(void)
+{
+    u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[0];
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_2), gAbilitiesInfo[ability].description, 0, 13, 0, 0);
+}
+
+static void PrintAbilityDesc3(void)
+{
+    u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[1];
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_3), gAbilitiesInfo[ability].description, 0, 13, 0, 0);
+}
+
+static void PrintAbilityDesc4(void)
+{
+    u16 ability = gSpeciesInfo[sMonSummaryScreen->summary.species].subAbilities[2];
+    PrintSmallTextOnWindow(AddWindowFromTemplateList(sPageAbilitesTemplate, PSS_DATA_WINDOW_INFO_ABILITY_4), gAbilitiesInfo[ability].description, 0, 13, 0, 0);
 }
