@@ -4504,8 +4504,8 @@
     {
       "id": "LAYOUT_CHERRY_GROVE_CITY_CENTRE",
       "name": "CherryGroveCityCentre_Layout",
-      "width": 31,
-      "height": 27,
+      "width": 46,
+      "height": 42,
       "primary_tileset": "gTileset_Primary_City1",
       "secondary_tileset": "gTileset_CherryGrove",
       "border_filepath": "data/layouts/CherryGroveCityCentre/border.bin",
