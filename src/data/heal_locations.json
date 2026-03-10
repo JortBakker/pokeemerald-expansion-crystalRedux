@@ -149,6 +149,12 @@
       "map": "MAP_CHERRY_GROVE_CITY",
       "x": 16,
       "y": 17
+    },
+    {
+      "id": "HEAL_LOCATION_CHERRY_GROVE_CITY_2",
+      "map": "MAP_CHERRY_GROVE_CITY",
+      "x": 26,
+      "y": 26
     }
   ]
 }
